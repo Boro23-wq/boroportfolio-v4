@@ -1,0 +1,90 @@
+---
+title: Core Web Vitals can remediate your website's bad user experience.
+date: '2021-02-15'
+tags: ['Development', 'UX', 'SEO']
+draft: false
+summary: Core Web Vitals uses metrices like Largest Contentful Paint, First Input Delay and Cumulative Layout Shift to determine the overall user-experience of your website.
+images: ['/images/web-vitals/web-vitals-1.png']
+---
+
+<img src="/images/web-vitals/web-vitals-1.png" alt="web-vitals-1" />
+
+We all want to create beautiful layouts, add exquisite animations, and want to deliver a top-notch user interface but let me be honest, how many of us are really aware of the web vitals that can help deliver a blazingly fast user-experience. In short, Google uses these web vitals to provide quality standards on user experiences.
+
+## What are Web Vitals?
+
+Web Vitals are essentially a way to quantify the user-experience of one’s website, which if optimized can help deliver a great user-experience. It is an initiative by Google and they have provided a few different tools to monitor the performance of websites. When one maintains a website it’s just not about delivering the website and putting forth the information for users to consume. But what we do need to take care of are the microscale details including “Does the user see what they want to see?” or “Did the same user visit your website for the second time?”.
+
+Taking care of the modest details will surely take you a long way. In fact, it is a snowball effect. Small optimizations can lead the path to much larger optimizations going forward. Well even though there are a lot of things to consider while delivering a top-notch user-experience, Core Web Vitals makes it relatively easy and simplifies the concept of user-centric design by helping us focus on metrics that matter the most.
+
+## What are Core Web Vitals?
+
+Core Web Vitals primarily encompasses three specific measurements: Largest Contentful Paint (visibility), First Input Delay (interactivity), and Cumulative Layout Shift (stability).
+
+<img src="/images/web-vitals/web-vitals-2.png" alt="web-vitals-2" />
+
+Let us go through each of them and understand what they really mean.
+
+- <u>Largest Contentful Paint (LCP)</u>: It measures how fast your website loads. Anything below
+  2.5s is deemed a good score.
+- <u>First Input Delay (FID)</u>: It measures how long a user has to wait before they can interact
+  with your website. Anything below 100ms is a good FID score.
+- <u>Cumulative Layout Shift (CLS)</u>: It measures the visual stability of a website. It mainly
+  occurs due when an asynchronous event fires and inserts DOM elements on the fly on top of existing
+  content.
+
+## Tools to measure Core Web Vitals.
+
+There are a handful of developer tools that support Core Web Vitals. Below I have put up a picture just to display a few. You can make use of the tools to generate the Web Vitals score report and see how far you need to optimize your website.
+
+<img src="/images/web-vitals/web-vitals-3.png" alt="web-vitals-3" />
+
+There is a really descriptive workflow described in the [web.dev blog](https://web.dev/vitals-tools/) that talks about how we can use all of the tools above to optimize the Core Web Vitals for a website. If you have some time and want to understand it better I would highly suggest you follow the link above. If not, let me write down the essence for you quickly.
+
+- First of all, you can use Search Console's Core Web Vitals that will generate a report to help you identify the number of pages that require optimizations. And, this is all generated based on field data. Field data is essentially Real User Metrics (RUM) data of real users over the course of a duration (usually a month).
+
+- Once you have the pages that require some digging, you can then use PageSpeed Insights (which I highly recommend) to generate lab and field data on the webpage.
+
+- If you are down to optimize your site locally, using tools like Lighthouse and Chrome DevTools can help you boil down every aspect of Core Web Vitals that requires optimization.
+
+A great resource would be to use [web.dev/measure](https://web.dev/measure/) that can help prioritize a set of guides for optimization. Also, it is recommended that you use Lighthouse Continuous Integration (CI) on every pull request you make to make sure you have optimized the site before deploying the changes to production.
+
+I would suggest you use [PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/) to generate the Web Vitals score right away if you don't know where to start.
+
+## Get started with PageSpeed Insights
+
+To get started let us go ahead and see PageSpeed Insights' typical report that records the core web vitals scores. PageSpeed Insights has an intuitive UI and the navigation is quite simple. Also, you will have an option to optimize for both Mobile and Desktop devices. Make sure you generate a report for both the device types as you will likely have different scores for different devices.
+
+Once you have the URL of the site you want to generate the report for go ahead and click analyze. It might take a few seconds before you see something like this:
+
+<img src="/images/web-vitals/web-vitals-4.png" alt="web-vitals-score" />
+
+As you can see the result is based on the real-world field data and says if the page passes the Core Web Vitals assessment or not. The report records four different web vitals. They are First Contentful Paint (FCP), First Input Delay (FID), Largest Contentful Paint (LCP), and Cumulative Layout Shift (CLS). You can also view suggestions based on each page by analyzing individual page URLs. Suppose you want to generate a report for the About page of your portfolio, you can go ahead and check the About page (www.portfolio.com/about) and record its scores.
+
+Additionally, you also receive a Lab score which essentially means that the scores are based on assumptions of user data. The lab score would look something like this:
+
+<img src="/images/web-vitals/web-vitals-5.png" alt="web-vitals-score" />
+
+Lab score comes along with a brief description of what these scores are and helps you visualize where you might need some digging. These scores are very helpful for testing your website and can help you to perform iterative optimizations along the way.
+
+### What's more? Suggestions and Improvements
+
+What if the web vitals score for your site isn't too great the first time around. You don't have to worry about not knowing where the problem in your site might be. In fact, PageSpeed Insights helps you with a diagnostic section that can perhaps act as a guide or a starting point. As you can see in the picture below, I have drawn out in red boxes to highlight places where PageSpeed Insights wants you to dig in and resolve some of these issues with your site.
+
+<img src="/images/web-vitals/web-vitals-6.png" alt="web-vitals-diagnostics" />
+
+These highlights are pretty helpful as you can now deal with solving the specific problem right away than just being baffled and not knowing where things are unsettled. Every diagnosis will also have a "Learn More" section that you can follow to learn how to tackle the specific problem.
+
+Additionally, right at the bottom, you'd also have a "Passed Audits" section listing out where your site is doing great at.
+
+## Improve Site Experience and Ranking
+
+You might have a question now that if we really need to care about the web vitals anyway? Let me clear up something. Web Vitals score is just one way or one of the ways Google ranks user sites essentially. Before you even get there and try to optimize your site for SEO, make sure your site has high-quality and relevant content. By relevance or high quality, I just mean a site that users would love to visit.
+
+So in that case, you can't expect a site to be ranked really high even with high-quality content because it somehow lacks in web vital assessment and vice versa. Definitely, it's a mix of both that would make your site ranked higher.
+
+There's a quote from Google that says:
+
+> A good page experience doesn’t override having great, relevant content. However, in cases where there are multiple pages that have similar content, page experience becomes much more important for visibility in Search.
+
+Very simply if there are multiple pages that have quality content the only deciding factor of one page being ranked higher than the other would be the Web Vitals score. So to sum up make sure you work on both quality and relevant content as well as the SEO optimizations for Google to rank your site.

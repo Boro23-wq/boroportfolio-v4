@@ -1,0 +1,81 @@
+---
+title: Absolute imports and module path aliases are a game changer!
+date: '2021-01-19'
+tags: ['Next.js', 'Feature', 'Development']
+draft: false
+summary: Absolute imports and module path alias helps us avoid writing the exact import path of a deeply-rooted component.
+images: ['/images/absolute-import/cover.png']
+---
+
+Absolute imports are indeed a game-changer, atleast for me. At times when you have different directories or files to import from, you'd perhaps know the challenge of trying to remember every folder structure so you don't mess up while importing content.
+
+Remember when you had to spend some time figuring out if the file you have imported is even the right one? It can get unexciting if that happens quite often. Imagine getting caught up in trying to identify if you have the right dots to your import path. As you can see in the image below, the left side of the split-screen shows the clutter due to relative paths while absolute paths on the right are much more cleaner and readable.
+
+<img src="/images/absolute-import/relative-vs-absolute.png" alt="relative-vs-absolute-imports" />
+
+To make imports more readable Next.js has introduced the concept of absolute imports and module path alias options from v9.4. This is all possible through a config file that is supported automatically from Next.js v9.4 onwards. The files are `tsconfig.json` for Typescript and `jsconfig.json` for Javascript.
+
+## Before and After Absolute Imports
+
+Without absolute imports, we had to drill down the actual path of the import.
+
+```js
+// Without absolute imports
+
+import { AuthProvider } from '../lib/auth'
+```
+
+<!-- SOME CHANGE REQUIRED -->
+
+With absolute imports, it's clean and easy.
+
+```js
+// With absolute imports
+
+import { AuthProvider } from '@/lib/auth'
+```
+
+## Implementation
+
+Let us look at how we can configure to use absolute imports. A typical configuration looks something like this:
+
+```js:jsconfig.json/tsconfig.json
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+    }
+}
+```
+
+Here, the `baseUrl` denotes the root of the project. So, if we have a directory called "lib" at the root of our project, we can make a direct import like so:
+
+```js
+import { AuthProvider } from 'lib/auth'
+```
+
+We have another option called `paths` to configure module aliases. While the `baseUrl` option can help us deal with most directories but what if we have deep-rooted directories with multiple components within. In those cases, absolute imports don't help much. Let us imagine we have an import like so:
+
+```js
+import Footer from 'components/Navigation/Footer'
+```
+
+It would still be tedious to write the above import statement even with absolute import in place. So we can make use of paths to declare module aliases. The configuration would look something like this:
+
+```js:jsconfig.json/tsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/navigation/*": ["components/Navigation/*"]
+    }
+  }
+}
+```
+
+The import after configuring module aliases will help us avoid writing the exact import path which can be very hard and tricky to remember. Atleast it helps us remove all the dotted clutter which doesn't make sense really.
+
+```js
+import Footer from '@/navigation/Footer'
+```
+
+There you go you can now let away any burden of remembering directories and paths using this handy feature provided by Next.js.

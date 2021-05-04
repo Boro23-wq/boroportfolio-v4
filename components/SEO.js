@@ -35,7 +35,7 @@ export const SEO = {
 export const PageSeo = ({ title, description, url }) => {
   return (
     <NextSeo
-      title={`${title} – ${siteMetadata.title}`}
+      title={`${title}`}
       description={description}
       canonical={url}
       openGraph={{
@@ -92,8 +92,8 @@ export const BlogSeo = ({ title, summary, date, lastmod, url, tags, images = [] 
       />
       <ArticleJsonLd
         authorName={siteMetadata.author}
-        dateModified={modifiedAt}
-        datePublished={publishedAt}
+        dateModified={publishedAt}
+        datePublished={modifiedAt}
         description={summary}
         images={featuredImages}
         publisherName={siteMetadata.author}

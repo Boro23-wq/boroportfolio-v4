@@ -1,0 +1,356 @@
+---
+title: Two factor authentication (2FA) using Speakeasy, Node and Express.
+date: '2020-11-14'
+tags: ['Development', 'Auth', 'Node']
+draft: false
+summary: Know how to configure a two factor authentication for your application using Speakeasy!
+images: ['/images/2fa-speakeasy/cover.png']
+---
+
+## Introduction
+
+Multi-factor authentication is an authentication method in which a user is granted access to a website or application only after successfully presenting two or more pieces of evidence to an authentication mechanism: knowledge, possession, and inherence.
+
+In the same way, the two-factor authentication method requires you to enter additional data as evidence to access your account. The most common forms of two-factor authentication involve entering a cod`e as used by Google and Facebook for additional security.
+
+## Advantages of Two Factor Authentication
+
+- Added layer security and added protection against cyber attacks.
+- Do not incur any extra costs while setting up.
+- Easy and convenient setup. For most implementations, all a user has to do is enable two-factor authentication and scan a QR code or enter their cellphone number so they can view or receive authentication codes respectively
+
+**_NOTE:_** In this tutorial, we will deal with a backend that implements the time-based one-time password (OTP) made available to us by the Speakeasy library. This tutorial only covers the backend implementation of the two-factor authentication.
+
+## Setup
+
+The very first step is to make sure you have appropriate versions of Node and npm installed. If not already you can follow the below links to download the absolute essentials as the very first thing we will be doing is run a Node server.
+
+- [Node](https://nodejs.org/en/download/)
+- [NPM](https://www.npmjs.com/get-npm)
+
+The next thing we do is create a project directory:
+
+```bash
+$ mkdir 2-fa
+$ cd 2-fa
+```
+
+Now that we have our project folder, we will quickly scaffold a `package.json` using npm init:
+
+```bash
+$ npm init -y
+```
+
+After you go through a couple of 'yes' and customize the setup, you will have a package.json file that might look something like this:
+
+```json
+{
+  "name": "2-fa",
+  "version": "1.0.0",
+  "description": "Two factor Authentication using Speakeasy",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Sintu Boro",
+  "license": "ISC"
+}
+```
+
+## Install Dependencies
+
+Run the following command to install the necessary dependencies:
+
+```bash
+$ yarn add express body-parser node-json-db uuid speakeasy ||
+$ npm install express body-parser node-json-db uuid speakeasy
+```
+
+- Express is a Node.js web application framework that we’ll use to spin our server.
+- The middleware body-parser package allows us to parse encoded data from incoming HTTP requests and expose them as req.body, so we can extract the essential data.
+- Node-json-db will be used as a database instance for storage.
+- Speakeasy is a one-time passcode generator, that we require for the two-factor authentication demonstration.
+
+We now have all the necessary dependencies and are ready to create our server. In the project folder, create an `index.js` file which will be the entry point to our project and add the following code to it:
+
+```js
+const express = require('express')
+const bodyParser = require('body-parser')
+const JsonDB = require('node-json-db').JsonDB
+const Config = require('node-json-db/dist/lib/JsonDBConfig').Config
+const uuid = require('uuid')
+const speakeasy = require('speakeasy')
+
+const app = express()
+
+/**
+ * Creates a node-json-db database config
+ * @param {string} name - name of the JSON storage file
+ * @param {boolean} Tells the to save on each push otherwise the save() mthod has to be called.
+ * @param {boolean} Instructs JsonDB to save the database in human readable format
+ * @param {string} separator - the separator to use when accessing database values
+ */
+const dbConfig = new Config('myDataBase', true, false, '/')
+
+/**
+ * Creates a Node-json-db JSON storage file
+ * @param {instance} dbConfig - Node-json-db configuration
+ */
+const db = new JsonDB(dbConfig)
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.get('/api', (req, res) => {
+  res.json({ message: 'Welcome to the two-factor authentication!' })
+})
+
+const port = 9000
+app.listen(port, () => {
+  console.log(`App is running on PORT: ${port}.`)
+})
+```
+
+At the root of your project, run the app to make sure everything is working alright:
+
+```bash
+$ node index.js
+```
+
+<!-- ![speakeasy-1](/images/2fa-speakeasy/se-1.png) -->
+
+If we hit the route `/api`, we receive the following as a JSON response;
+
+<img src="/images/2fa-speakeasy/se-2.png" alt="speakeasy-2" />
+
+## Generate Secret Key
+
+We now need to generate a secret key that in turn generates us the two-factor authentication code through the Authenticator extension that we will be using. We will also have a route to register a user containing just the userID and the secret key generated by speakeasy.
+
+To do this we will use Speakeasy’s `generateSecret` function. The response returns an object that has the secret in ASCII, hex, base32, and otpauth_url formats. We will only be using the "base32" string to set up two-factor authentication. Paste the following code to create the register user route:
+
+```js
+app.post('/api/register', (req, res) => {
+  const id = uuid.v4()
+  try {
+    const path = `/user/${id}`
+    // Create temporary secret until it it verified
+    const temp_secret = speakeasy.generateSecret()
+    // Create user in the database
+    db.push(path, { id, temp_secret })
+    // Send user id and base32 key to user
+    res.json({ id, secret: temp_secret.base32 })
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({ message: 'Error generating secret key' })
+  }
+})
+```
+
+Right after we add the routes we can now make a POST request to this route to register a user like so:
+
+<img src="/images/2fa-speakeasy/se-3.png" alt="speakeasy-3" />
+
+Now open the Google Authenticator extension/app(this can be installed as an extension) and enter the secret key you just received like so:
+
+<img
+  style={{ margin: '24px auto', width: '50%' }}
+  src="/images/2fa-speakeasy/gauth-menu.png"
+  alt="auth-menu"
+/>
+
+## Verify the secret
+
+We now have the code generated to us through the secret key by the authenticator app. We now need to verify this code. Notice we have stored the secret as a temporary secret on the storage/database. Only after relevant validation, we can go ahead and store it permanently.
+
+To perform the validation, we need to create another endpoint. The endpoint that verifies the code for us looks something like this:
+
+```js
+app.post('/api/verify', (req, res) => {
+  const { userId, token } = req.body
+  try {
+    // Retrieve user from database
+    const path = `/user/${userId}`
+    const user = db.getData(path)
+    console.log({ user })
+    const { base32: secret } = user.temp_secret
+    const verified = speakeasy.totp.verify({
+      secret,
+      encoding: 'base32',
+      token,
+    })
+    if (verified) {
+      // Update user data
+      db.push(path, { id: userId, secret: user.temp_secret })
+      res.json({ verified: true })
+    } else {
+      res.json({ verified: false })
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Error retrieving user' })
+  }
+})
+```
+
+Now open up the two-factor authentication extension and retrieve the code so we can verify the secret using a Postman request to the verify route.
+
+<img src="/images/2fa-speakeasy/se-4.png" alt="postman" />
+
+After the validation, the secret key is now stored permanently and is used to verify future codes.
+
+## Verify User Tokens
+
+The final step in the two-factor authentication is verifying the code that the user enters from their authenticator app. We need to add another route that will confirm that the tokens entered by the user are valid. The verification is handled by the Speakeasy TOTP (Time Based One Time Password) verify function.
+
+This receives an object that contains the secret, the encoding to use to verify the token, the token, and a window option. A window refers to the period of time that a token is valid. This is usually 30 seconds but can vary depending on the time selected by the developer of the two-factor process.
+
+You want to be careful to now pass out a large window allowance as that would lead to the verification process becoming less secure. Copy the code below to add the endpoint to validate the tokens:
+
+```js
+app.post('/api/validate', (req, res) => {
+  const { userId, token } = req.body
+  try {
+    // Retrieve user from database
+    const path = `/user/${userId}`
+    const user = db.getData(path)
+    console.log({ user })
+    const { base32: secret } = user.secret
+    // Returns true if the token matches
+    const tokenValidates = speakeasy.totp.verify({
+      secret,
+      encoding: 'base32',
+      token,
+      window: 1,
+    })
+    if (tokenValidates) {
+      res.json({ validated: true })
+    } else {
+      res.json({ validated: false })
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Error retrieving user' })
+  }
+})
+```
+
+Now hit the `/validate` route and verify the code from the authenticator using Postman.
+
+<img src="/images/2fa-speakeasy/se-5.png" alt="postman" />
+
+And there you go! We have successfully implemented a two-factor authentication using Speakeasy. We looked into how we can register a user and create a secret shared between your server and the authenticator app; verifying the secret and using it to validate tokens.
+
+The entire `index.js` file would look something like this:
+
+```js:index.js
+const express = require('express');
+const bodyParser = require('body-parser');
+const JsonDB = require('node-json-db').JsonDB;
+const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
+const uuid = require('uuid');
+const speakeasy = require('speakeasy');
+
+const app = express();
+
+/**
+ * Creates a node-json-db database config
+ * @param {string} name - name of the JSON storage file
+ * @param {boolean} Tells the to save on each push otherwise the save() mthod has to be called.
+ * @param {boolean} Instructs JsonDB to save the database in human readable format
+ * @param {string} separator - the separator to use when accessing database values
+ */
+const dbConfig = new Config('myDataBase', true, false, '/');
+
+/**
+ * Creates a Node-json-db JSON storage file
+ * @param {instance} dbConfig - Node-json-db configuration
+ */
+const db = new JsonDB(dbConfig);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/api', (req, res) => {
+  res.json({ message: 'Welcome to the two factor authentication exmaple' });
+});
+
+app.post('/api/register', (req, res) => {
+  const id = uuid.v4();
+  try {
+    const path = `/user/${id}`;
+    // Create temporary secret until it it verified
+    const temp_secret = speakeasy.generateSecret();
+    // Create user in the database
+    db.push(path, { id, temp_secret });
+    // Send user id and base32 key to user
+    res.json({ id, secret: temp_secret.base32 });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: 'Error generating secret key' });
+  }
+});
+
+app.post('/api/verify', (req, res) => {
+  const { userId, token } = req.body;
+  try {
+    // Retrieve user from database
+    const path = `/user/${userId}`;
+    const user = db.getData(path);
+    console.log({ user });
+    const { base32: secret } = user.temp_secret;
+    const verified = speakeasy.totp.verify({
+      secret,
+      encoding: 'base32',
+      token,
+    });
+    if (verified) {
+      // Update user data
+      db.push(path, { id: userId, secret: user.temp_secret });
+      res.json({ verified: true });
+    } else {
+      res.json({ verified: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error retrieving user' });
+  }
+});
+
+app.post('/api/validate', (req, res) => {
+  const { userId, token } = req.body;
+  try {
+    // Retrieve user from database
+    const path = `/user/${userId}`;
+    const user = db.getData(path);
+    console.log({ user });
+    const { base32: secret } = user.secret;
+    // Returns true if the token matches
+    const tokenValidates = speakeasy.totp.verify({
+      secret,
+      encoding: 'base32',
+      token,
+      window: 1,
+    });
+    if (tokenValidates) {
+      res.json({ validated: true });
+    } else {
+      res.json({ validated: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error retrieving user' });
+  }
+});
+
+const port = 9000;
+
+app.listen(port, () => {
+  console.log(`App is running on PORT: ${port}.`);
+});
+```
+
+## References
+
+- Two-Factor Authentication using SpeakEasy - [Logrocket.](https://blog.logrocket.com/implementing-two-factor-authentication-using-speakeasy/)
+- For video explanation of the same please visit [Traversy Media - Two Factor Authentication](https://www.youtube.com/watch?v=KQya9i6czhM&t=167s) on Youtube.

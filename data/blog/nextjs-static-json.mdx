@@ -1,0 +1,293 @@
+---
+title: Next.js (useStaticProps, useStaticPaths) + Static JSON Data.
+date: '2020-12-12'
+tags: ['Next.js']
+draft: false
+summary: There are multiple different ways (useStaticProps, useStaticPaths, useServerSideProps) to fetch data in Next.js. Let's build an application using the different methods.
+images: ['/images/nextjs-static-json/cover.png']
+---
+
+I have been trying to learn Next.js for a few weeks now. I have read a few blogs and have found Next.js very intriguing in terms of its added functionality such as server-side rendering and generating static websites. To be honest, I have already started liking it enough and wanted to build a quick application using Next.js' data fetching techniques. Shoutout to [Lee Robinson](https://leerob.io/) for his amazing [blog](https://leerob.io/blog/next-prisma) on incorporating Next.js with Prisma.
+
+I won't be using Prisma for the sake of simplicity and the data for our application would be fed from a static JSON file.
+
+Primarily, Next.js has three unique functions available to fetch data.
+
+- getStaticProps - Data is fetched during build time and is available before any client request.
+- getStaticPaths - Data is fetched using dynamic routes.
+- getServerSideProps - Data is fetched from the server on on-demand client requests.
+
+Out of the above three data fetching methods, we are only going to make use of <u>getStaticProps</u> and <u>getStaticPaths</u> for this application.
+
+## Working with Data
+
+Before we can go ahead and write methods to fetch data from a database or a static JSON file, we need to collect some data. It is recommended to have a SQL or any kind of database hooked up to fetch data, but for the simplicity of this tutorial, we will have all our data coming from a static JSON file.
+
+The file would be an array of objects like so:
+
+```js:data.js
+export const playlist = [
+  {
+    id: 1,
+    name: 'D4L',
+    artist: 'Future, Drake & Young Thug',
+    genre: 'HipHop',
+    albumCoverUrl: 'https://i.ibb.co/9rTBzmD/D4L.jpg',
+    youtubeID: 'ldeLy8D_uSE',
+  },
+  {
+    id: 2,
+    name: 'Love Yourz',
+    artist: 'JCole',
+    genre: 'Rap',
+    albumCoverUrl: 'https://i.ibb.co/BZSJPvV/Jcole.jpg',
+    youtubeID: 'Ka4BxFizU7I',
+  },
+  {
+    id: 3,
+    name: 'Why would I Stop?',
+    artist: 'Big Sean',
+    genre: 'HipHop/Rap',
+    albumCoverUrl: 'https://i.ibb.co/8g4PFQp/Big-Sean.png',
+    youtubeID: 'httEG6zsM_U',
+  },
+ ...
+ ...
+ ...
+]
+```
+
+Here, we can see an object has multiple fields. This is essentially the structure of our data that we will deal with while querying using the data fetching methods. Each data has a unique ID, name, artist, genre, album cover, and youtube ID to embed the particular youtube video on our application.
+
+## Working with pages for the view
+
+In Next.js, a page is a React Component that lies inside the page's directory. Each page is associated with a route based on its file name.
+
+For Example: If we have an about page, we create a file called about.js inside the pages directory (pages/about.js) that exports a React component. The page will be accessible at /about.
+
+We will have an index.js file that will act as an entry point to our application. The file will have the following content:
+
+```js:pages/index.js
+import { playlist } from '../data';
+import { List, Heading } from '@chakra-ui/core';
+
+import Song from '../components/Song';
+
+export const getStaticProps = async () => {
+  return {
+    props: {
+      playlistLists: playlist,
+    },
+  };
+};
+
+export default ({ playlistLists }) => (
+  <>
+    <Heading mt={8} mb={4} fontWeight='800'>
+      HipHop Playlist
+    </Heading>
+    <List>
+      {playlistLists.map((playlistList) => (
+        <Song key={playlistList.id} {...playlistList} />
+      ))}
+    </List>
+  </>
+);
+```
+
+Here we import the playlist array from the data file that we created before. Notice we make use of a function called 'getStaticProps' in the file above. Let us break down what's happening here.
+
+### getStaticProps
+
+"getStaticProps" is an asynchronous function and receives props as an argument.
+
+```js
+export const getStaticProps = async () => {
+  return {
+    props: {
+      playlistLists: playlist,
+    },
+  }
+}
+```
+
+Notice we pass in the data from our playlist array, as 'playlistLists'. Now these 'playlistLists' props will expose our data to the below component.
+
+<!-- ```js{1} -->
+
+```js
+export default ({ playlistLists }) => (
+  <>
+    <Heading mt={8} mb={4} fontWeight="800">
+      HipHop Playlist
+    </Heading>
+    <List>
+      {playlistLists.map((playlistList) => (
+        <Song key={playlistList.id} {...playlistList} />
+      ))}
+    </List>
+  </>
+)
+```
+
+The component above receives the props 'playlistLists' which was made available to us by the 'useStaticProps' method. Using the help of the props and since we have an array defined within our data, we can map through each song in the playlist and pass the props through to another component called 'Song'.
+
+The Song component is actually responsible for rendering our list in the view. The Song component looks something like this:
+
+```js:components/Song.js
+import { ListItem, Image, Flex, Text, Stack, Heading } from '@chakra-ui/core';
+import NextLink from 'next/link';
+
+const Song = ({ id, name, artist, albumCoverUrl }) => (
+  <ListItem
+    border='1px solid'
+    borderColor='gray.200'
+    borderRadius={4}
+    my={2}
+    bg='white'
+  >
+    <NextLink href={`/songs/[id]`} as={`/songs/${id}`} passHref>
+      <Flex as='a'>
+        <Image
+          size='100px'
+          borderTopLeftRadius={4}
+          borderBottomLeftRadius={4}
+          objectFit='cover'
+          src={albumCoverUrl}
+          alt={name}
+          mr={4}
+        />
+        <Stack mt={4}>
+          <Heading size='lg' fontWeight='500'>
+            {name}
+          </Heading>
+          <Text color='gray.700'>{artist}</Text>
+        </Stack>
+      </Flex>
+    </NextLink>
+  </ListItem>
+);
+
+export default Song;
+```
+
+Here, a lot of the code is concentrated on styling. There's not much logic going on here. And by the way, we use a library called Chakra for the UI components.
+
+### Rendered View
+
+The demo of the rendered view can be seen below:
+
+<img src="/images/nextjs-static-json/app-1.png" alt="app-screen-1" />
+
+We now have a rendered view of our application. But what if we want to click on each of these list items and want to render a view for each of the individual songs in the playlist with a video embedded from Youtube.
+
+We currently don't have any functionality for the same. This is where page paths in Next.js come into the picture. Let us dive a little deeper and understand what that means.
+
+## Dynamic Routes in Next.js
+
+Next.js can help us create pages with dynamic routes. For example, if we want to create a file for each of the songs in our playlist we can create a file called 'pages/songs/[id].js' to show a single song based on its 'id'. This will allow us to show an individual song with `id: 1` when we access the route 'songs/1'.
+
+Now let us create a file `[id].js` inside the folder called songs. The file will have the following content:
+
+```js:pages/songs/[id].js{16-22}
+import { playlist } from '../../data';
+import { Box, Heading, Text, Button } from '@chakra-ui/core';
+import NextLink from 'next/link';
+
+export const getStaticProps = async ({ params }) => {
+  const playlistList = playlist.filter((p) => p.id.toString() === params.id);
+  return {
+    props: {
+      song: playlistList[0],
+    },
+  };
+};
+
+export const getStaticPaths = async () => {
+  const paths = playlist.map((song) => ({
+    params: { id: song.id.toString() },
+  }));
+
+  return { paths, fallback: false };
+};
+
+export default ({ song }) => (
+  <Box mt={8}>
+    <Heading fontWeight='800'>{song.name}</Heading>
+    <Text color='grey.700' mb={4}>
+      {song.artist}
+    </Text>
+    <iframe
+      width='100%'
+      height='315'
+      src={`https://www.youtube.com/embed/${song.youtubeID}`}
+      frameBorder='0'
+      allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+      allowFullScreen
+    />
+    <NextLink href='/' passHref>
+      <Button as='a' mt={4} leftIcon='arrow-back'>
+        Back
+      </Button>
+    </NextLink>
+  </Box>
+);
+```
+
+Here the 'getStaticPaths' method will help us generate a dynamic route for each song in the playlist based on the query params. Suppose you visit the route '/songs/1', Next.js will create us a dynamic route for the song with `id=1` as we receive in the query.
+
+The id received is then passed to the 'getStaticProps' method:
+
+```js
+export const getStaticProps = async ({ params }) => {
+  const playlistList = playlist.filter((p) => p.id.toString() === params.id)
+  return {
+    props: {
+      song: playlistList[0],
+    },
+  }
+}
+```
+
+Here we filter the id in our data file that matches the query params. And then finally return the single song as a prop to our components. The component below can now render the view using the props like so:
+
+```js
+export default ({ song }) => (
+  <Box mt={8}>
+    <Heading fontWeight="800">{song.name}</Heading>
+    <Text color="grey.700" mb={4}>
+      {song.artist}
+    </Text>
+    <iframe
+      width="100%"
+      height="315"
+      src={`https://www.youtube.com/embed/${song.youtubeID}`}
+      frameBorder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+    <NextLink href="/" passHref>
+      <Button as="a" mt={4} leftIcon="arrow-back">
+        Back
+      </Button>
+    </NextLink>
+  </Box>
+)
+```
+
+The rendered view of the above file is demonstrated below:
+
+<!-- GIF GOES HERE -->
+
+<img src="/images/nextjs-static-json/app-2.gif" alt="application-demo" />
+
+## Conclusion
+
+We have successfully implemented the basic method that Next.js provides us for data fetching. To recap, 'getStaticProps' and 'getStaticPaths' both run during build-time. Next.js will pre-render the page at build time using the props returned by 'getStaticProps'. On the other hand, 'getStaticPaths uses dynamic routes and Next.js will statically pre-render all the paths specified by 'getStaticPaths'.
+
+## References
+
+- The GitHub repo for the tutorial can be found [here.](https://github.com/Boro23-wq/playlist-using-useStaticProps-useStaticPaths)
+- Static Sites with Next.js and Prisma - [Leerob.io](https://leerob.io/blog/next-prisma)
+- Pages in Next.js - [Next.js Docs](https://nextjs.org/docs/basic-features/pages)
+- Data Fetching in Next.js - [Next.js Docs](https://nextjs.org/docs/basic-features/data-fetching)

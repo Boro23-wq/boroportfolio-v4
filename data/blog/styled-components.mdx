@@ -1,0 +1,120 @@
+---
+title: Styled Components in React.
+date: '2021-02-07'
+tags: ['Styled Components']
+draft: false
+summary: Enhance dynamic styling in your React components using Javascript’s ES6 syntax. Automatic critical CSS, no class name bugs, and easier deletion of CSS.
+images: ['/images/styled-components/cover.png']
+---
+
+Not a very long time ago, CSS style sheets were the only appropriate way to paint any modern app. That is basically the traditional method of styling at the document level — creating a `style.css` file and referencing it on the HTML document for the styles to appear.
+
+But with constant updates and improvements, we now have with us something known as styled-components. Styled components are basically an innovative way of using Javascript’s ES6 syntax, along with CSS which enables us to enhance our styling in React components. From very old and basic `.css` files to `.scss` files and `styled-components`, there have been some massive upgrades so to speak.
+
+To put out in very simple terms, styled-components allow us to write CSS inside of JavaScript. That’s it! We can still use CSS/SCSS files that would still be compiled back into CSS modules.
+
+Before we run through what styled-components can bring to the table let me clarify why do we even need them.
+
+Well, imagine when an application grows and expands there are certainly a lot more things to consider being a developer. Worrying about dedicating a specific folder to encapsulate all the CSS related files, identifying how to scope them, and making very sure that there are no clashes in namespaces. These are a few of the many problems that styled-components are effectively intercepting right off the bat. Additionally, encapsulating CSS in JavaScript also means no more extensive HTTP requests to fetch all the CSS assets beforehand.
+
+## Why Styled Components (Extended)?
+
+Styled components allow us to write CSS inside of JavaScript using tagged template literals (``) and it removes the overhead of mapping components and styles together.
+
+Styled components were created to handle the following reasons:
+
+- Styled components automatically monitor components that are rendered on a webpage and only injects the critically required styles. This means that there is no overhead of extra HTTP requests for fetching the CSS assets.
+
+- Styled components generate unique class names for the styles. Developers now don’t have to worry about namespace clashes.
+
+```css
+<div className='texts View-sadj kssytz'>
+  <Title className='asndj View-sdda asds'>
+    <h2 className='title View-ttyus hhyat'>... ...</h2>
+  </Title>
+</div>
+```
+
+- Adapting the styling of a component based on its props or a global theme is simple and intuitive without having to manually manage dozens of classes.
+
+- Automatic vendor prefixing: write your CSS to the current standard and let Styled components handle the rest. Styled components use the [stylis.js](https://stylis.js.org/) package under the hood for prefixing the CSS rules.
+
+## Features of Styled-components
+
+<b>1. Passing Props:</b>
+
+Props in styled-components act the same way as props passed into any React component.
+
+```css
+const buttonStyles = css`
+background-color: black
+color: white;
+`;
+
+const invertedButtonStyles = css`
+  background-color: white;
+  color: black;
+`;
+
+const googleSignInStyles = css`
+  background-color: #4285f4;
+  color: white;
+  border: none;
+`;
+
+const getButtonStyles = (props) => {
+  if (props.isGoogleSignIn) {
+    return googleSignInStyles;
+  }
+
+  return props.inverted ? invertedButtonStyles : buttonStyles;
+};
+```
+
+<b>2. Dynamically Changing Elements:</b>
+
+We can dynamically change elements using styled-components as demonstrated below. As you can see in the example below we convert a `span` element to act as `link` passing the 'as' prop made available to us.
+
+```css
+export const CustomText = styled.span`
+  color: white;
+  background-color: black;
+`;
+
+return <CustomText as='a'>CustomText is now changed to a link!</CustomText>;
+```
+
+Now, although `CustomText` is only a span, it will behave like a link.
+
+<b>3. Leveraging Themes:</b>
+
+Themes allow us to be consistent by making styles available to all our different components. We can now define a common style and apply it to any component we want.
+
+```css
+const theme = {
+    color: {
+        dark: '#000000'
+        medium: '#cfcfcf'
+        light: '#ffff'
+    }
+}
+
+const CustomText = styled.h2`
+   font-color: ${props => props.theme.color.dark}
+`
+
+render(
+    <div>
+        <ThemeProvider theme={theme}>
+            <CustomText>I am a dark text!</CustomText>
+        </ThemeProvider>
+    </div>
+);
+```
+
+There are tons of handy features that styled-components come with. It also has a few advanced features like concurrent server-side-rendering and passing ref props, just to name a few. Please do check out their official docs by visiting [here](https://styled-components.com/docs) to know about all its features.
+
+## References
+
+- Building a react component library using [styled-components.](https://medium.com/@fionnachan/building-a-react-component-library-with-styled-components-input-field-c79c789387ad)
+- Getting most out of [styled-components.](https://blog.cloudboost.io/getting-the-most-out-of-styled-components-7-must-know-features-acba3cc15b5)

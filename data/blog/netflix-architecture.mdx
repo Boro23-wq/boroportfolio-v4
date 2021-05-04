@@ -1,0 +1,238 @@
+---
+title: How Netflix - a popular media streaming service onboards and delivers its content to millions of users.
+date: '2021-03-12'
+tags: ['Netflix', 'Architecture', 'System Design']
+draft: false
+summary: We try to design a system much like Netflix that would scale to millions of users worldwide and talk through possible architectures and microservices that can help deliver an online streaming service.
+images: ['/images/netflix-architecture/cover.png']
+---
+
+Netflix launched its online streaming service in 2007 and has predominantly been the primary streaming service consumed by millions of users worldwide ever since. They have pretty much shaped the "media-streaming revolution", with over 100 million paid subscribers in no time. Massive! I was curious about its architecture and microservices like most of y'all and just hopped onto reading blogs and articles to understand how they manage to scale to serve millions of users. So here I am trying to explain just a bit of what I know about Netflix and the system behind the very sought-after streaming service.
+
+# Problem at hand
+
+So we are trying to design a streaming platform service much like Netflix that will essentially help us understand the system behind the scale. Obviously, it is very unlikely that we can talk through all the features provided by Netflix in just one blog, so we will try to cover a handful of features that will roughly represent any online media-streaming service.
+
+## Feature Requirements
+
+Listed below are the key features that we are going to take care of while designing the system.
+
+- Uploading content by content creators.
+- Accessibility (Available on various devices/platforms).
+- Search videos (Content Discovery).
+- Support for subtitles.
+- User Behavior Metrics.
+
+## Capacity Estimation and Constraints
+
+Before designing a scalable and performant system we need to estimate a few figures that will help us handle incremental traffic. For estimation, we would break the problem down into a few different steps. Finally, we would also take into account a serious escalation in traffic due to popular shows being released which users have been waiting for very long. The figures that will help us estimate the capacity of the system are as follows:
+
+- Active users registered (Paid subscribers) = 150 Million
+- The average size of the video uploaded/minute = 2500 MB
+- Supported resolutions and video formats = 10
+- Average videos users watch daily = 3
+
+Netflix has a few different domain-specific microservices running concurrently that handle different aspects of the system like sign-up, content discovery, and playback. Most user requests will be directed towards the playback servers since they are solely responsible for responding to user queries. Hence we will require more servers to handle playback queries. The number of servers assigned to handle playback queries can be formulated as:
+
+```bash
+Total servers in playback microservice =
+    (playback_queries/sec * latency) / (concurrent_connections per server)
+```
+
+Assuming that the latency to reply to each and every playback query is 20 ms. Additionally, we also estimate that a server can only handle 10K concurrent connections at a time. Now, imagine we have a surge of playback queries at the same time. In that case, the system should be able to handle queries of at least 75–80% of the total active users. Having all of that into consideration we would require a total of `(110M * 20ms / 10K = 220)` (220) servers that would just handle playback queries.
+
+- Number of videos watched every second:
+
+```bash
+Number of videos watched every second =
+(active_users * average_videos_watched_daily) / 86400 (seconds in a day)
+    = (150M * 3 / 86400) = 5208.
+```
+
+- Size of the content stored daily:
+
+```bash
+Size of the content stored daily =
+(average_video_size_uploaded/min * total_resolutions_and_codecs * 24 * 60
+    = (2500MB * 10 * 24 * 60) = 36 TB/day.
+```
+
+## API Endpoints
+
+### Endpoint for uploading video (For content creators)
+
+The `Path` field designates the endpoint the content creators are likely to hit while uploading a video. The `Body` field contains some essential data about the actual video.
+
+```js
+Path: `POST /api/v1/videos`
+
+Body: {
+        title : Video Title
+        description : Video Description
+        category : Video Category/Genre
+        video_content: Video Content Stream
+        ...
+      }
+```
+
+After the completion of the upload operation (success or failure), the API should respond with relevant HTTP status codes.
+
+### Endpoint for searching a specific video
+
+This API endpoint will serve requests for searching a specific video by title.
+
+```js
+Path: `GET /api/v1/search?q=<query>&page_id=<page_id>`
+```
+
+The API response would return an array of objects that includes videos matching the search query.
+
+### Endpoint for streaming a video
+
+Streaming a video will perform a `GET` request to the endpoint `/api/v1/videos/:video_id`. Auxiliary query params such as offset can also be passed along with the URL, in scenarios where the user continues the video from where he left off.
+
+```js
+Path: `GET /api/v1/videos/:video_id`
+
+Query Params: {
+                offset: Time (secs) from the start of the video
+              }
+```
+
+## Database Model
+
+We require various tables to persist data such as user data, profile data, subscriptions data, and so on and so forth. Since for the scope of our system, we are only dealing with videos and their metadata we need to have some kind of data model to store the metadata of the videos. We can make use of a document-based store like MongoDB to store this information. The data-model is for storing video meta-data is demonstrated below.
+
+<img
+  style={{ margin: '24px auto', width: '35%' }}
+  src="/images/netflix-architecture/video-metadata.png"
+  alt="metadata"
+/>
+
+We also have another requirement of storing subtitles for the videos. We can make use of some sort of OpenTSDB to store the subtitles. OpenTSDB databases are great for storing and serving massive amounts of time-series data. Below we have demonstrated an event-driven model where each event occupies a timestamp of the video timeline.
+
+```js
+"events": [
+            {
+                "startTime": T0,
+                "endTime": T1,
+                "metadata": {
+                    "subtitle": "Alright thanks!"
+                }
+            },
+            {
+                "startTime": T2,
+                "endTime": T3,
+                "metadata": {
+                    "subtitle": "See you soon."
+                }
+            }
+            ...
+          ]
+```
+
+## High-level architecture
+
+We will be going through a very high-level design of the Netflix architecture that effectively handles events such as uploading videos by the content creators and streaming videos by the end-users.
+
+<img
+  style={{ margin: '24px auto' }}
+  src="/images/netflix-architecture/high-level-architecture.png"
+  alt="high level architecture"
+/>
+
+### 1. Netflix CDN (Open Connect)
+
+Netflix uses the Open Connect CDN responsible for delivering Netflix content world-wide. Content Delivery Network or CDN in short helps deliver content efficiently as they are distributed in different geographic locations. So if you are streaming Netflix content from Asia, your content will be served from the nearest Open Connect CDN instead of the actual server.
+
+All of this is possible due to the Open Connect Appliances (OCAs). These appliances store encoded video/image files and serve these files via HTTP/HTTPS to various client devices. OCAs are responsible for delivering playable bits to client devices as fast as possible.
+
+The OCAs can be deployed in two different ways:
+
+1. OCAs are installed within internet exchange points (referred to as IXs or IXPs) interconnected with mutually-present ISPs via settlement-free public or private peering (SFI).
+2. OCAs are deployed directly inside ISP networks. For this kind of deployment practice, Netflix provides the server hardware while the ISPs provide power, space, and connectivity. ISPs control the traffic directed towards these OCAs.
+
+### 2. Data Store
+
+Essential data such as the video metadata will be persisted in a data store (Amazon S3).
+
+### 3. Control Plane
+
+Control Plane is solely responsible for uploading new content that is eventually distributed across the CDNs. The control plane evaluates report provided by the OCAs and use it to steer clients via URL to the most optimal OCAs given their file availability, health, and network proximity to the client.
+
+The control plane services also take care of adding new files to OCAs, compute optimal behavior for such things as file storage/hashing, and handle the storage and interpretation of relevant telemetry about the playback experience.
+
+### 4. Data Plane
+
+The end-users interact with services provided by the Data Plane for streaming video content. It mainly comprises of two different services - The Playback Service and The Steering Service. The following image depicts the overall flow of the playback process:
+
+<img
+  style={{ margin: '24px auto' }}
+  src="/images/netflix-architecture/playback-process.png"
+  alt="playback process"
+/>
+
+The Netflix Playback Process can be summarized into the following steps:
+
+1. The Cache-Control Services (CCS) receives reports about the CDN health, best possible routes to redirect traffic and availability of content from the OCA.
+
+2. A user on a client device makes a request with a title of the TV show or movie they want to stream from the Netflix application.
+
+3. The playback service then internally verifies the authorization and licensing of the user, and proceeds further to handle the playback request. It also takes into account individual client characteristics such as the location of the client and the client's current network condition.
+
+4. The steering service uses the information stored in the Cache-Control Service (CCS) to fetch the URL of the best possible OCA and sends them back to the playback service.
+
+5. The playback application in turn hands over the URL of the appropriate OCA to the client device and the OCA begins to serve the requested media files.
+
+## Netflix content onboarding in simple steps!
+
+1. Netflix receives tons of high-quality videos and content from the content creators and requires a tremendous amount of preprocessing before they are made available to the end-users.
+
+2. Netflix supports > 2200 devices and that is where device compatibility comes into the picture. Since various devices support various formats and resolutions, it is indeed a necessity to optimize the video-content.
+
+3. Netflix performs transcoding to convert the original video received from the production house/content creators into different formats and resolutions. The transcoder service will check the quality of the uploaded videos, compress the video with different codecs and finally generate different resolutions of the same video.
+
+<img
+  style={{ margin: '24px auto' }}
+  src="/images/netflix-architecture/transcoding.png"
+  alt="transcoding"
+/>
+
+4. Netflix also takes care of optimizing the content for different network speeds. You might have experienced a sudden drop in quality while watching a movie on Netflix. And within a jiffy, you are back with the original quality. Those are the optimizations that Netflix works on to provide users with a seamless experience.
+
+5. Successful transcoding produces multiple copies of the same data that is eventually replicated to each and every Open Connect CDN placed across the world. And finally, the media content is available for use.
+
+## Performance Optimizations
+
+We can perform a few performance optimizations in our design which will help discover and serve content faster.
+
+### 1. Scaling the Playback API
+
+<img src="/images/netflix-architecture/synchronous-workflow.png" alt="synchronous workflow" />
+
+We can optimize the playback service by making the architecture asynchronous. Let's try to understand using an example. The 'getPlayData' requires customer data 'getCustomerInfo' and device information 'getDeviceInfo' to eventually process 'decidePlayData' which is the video playback request in this case.
+
+In a typical synchronous ecosystem, once 'getPlayData' is invoked, the 'getCustomerInfo' operation runs on a client thread-pool which blocks subsequent operations 'getDeviceInfo' and 'decidePlayData' that may incur heavy latency bottlenecks in the long-run.
+
+<img src="/images/netflix-architecture/asynchronous-workflow.png" alt="asynchronous workflow" />
+
+One way to scale out the playback operation is to adopt asynchronous architecture. For every playback request, the request-handler event pool triggers a worker thread to set up an entirely new execution workflow. Each of these worker threads can be designated to perform the desired operation independently. After the successful return of response by all the worker threads, a second execution workflow can be triggered to bundle the responses together and proceed further for the next steps.
+
+With this approach, we successfully terminate the blocking operations as multiple operations can now spin up a new execution flow and perform operations independently.
+
+### 2. Design Resilient Services
+
+Approaches such as [Chaos Experiments](https://en.wikipedia.org/wiki/Chaos_engineering) can be put in place to design services that will withstand any dropoff. Netflix makes use of tools such as [Chaos Monkey](https://medium.com/netflix-techblog/netflix-chaos-monkey-upgraded-1d679429be5d) and [Chaos Kong](https://medium.com/netflix-techblog/chaos-engineering-upgraded-878d341f15fa) to ensure that the instance and regional failures are resilient. Tools such as [ChAP](https://netflixtechblog.com/chap-chaos-automation-platform-53e6d528371f) were also added as a means of automating the testing process. ChAP takes a small subset of traffic and distributes it evenly between a control and an experimental cluster. Furthermore, stream processes can be used to track the behavior of the users and devices in each of these clusters.
+
+Deliberate breaking testing measures such as [Failure Injection Testing](https://medium.com/netflix-techblog/fit-failure-injection-testing-35d8e2a9bb2) (FIT) can be implemented by either introducing latency in the I/O calls or by injecting faults while calling other services. We can then rigorously validate if the fallback strategies are working as intended.
+
+Tools like [Hystrix](https://netflixtechblog.com/introducing-hystrix-for-resilience-engineering-13531c1ab362) can also be used to isolate points of access to remote systems, services, and third-party libraries. Hystrix does this by isolating points of access between the services, stopping cascading failures across them, and providing fallback options, all of which improve the system's overall resiliency. Hystrix also acts as circuit breakers if the error threshold gets breached.
+
+## References
+
+- Netflix System Design - [System Design Primer](https://systemdesignprimer.com/netflix-system-design/)
+- System Design Interview - [Techtakshila](https://techtakshila.com/system-design-interview/chapter-2/)
+- Open Connect - [Netflix](https://openconnect.netflix.com/Open-Connect-Overview.pdf)
+- Netflix System Design - [Narendra L](https://medium.com/@narengowda/netflix-system-design-dbec30fede8d)
+- Designing Services for Resilience - [Nora Jones](https://www.youtube.com/watch?v=RWyZkNzvC-c)
+- Netflix Play API - [Suudhan Rangarajan](https://www.youtube.com/watch?v=6oPj-DW09DU)

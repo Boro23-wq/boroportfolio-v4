@@ -1,0 +1,174 @@
+---
+title: Data Fetching (useStaticProps) in Next.js using Headless CMS Strapi.
+date: '2021-01-14'
+tags: ['Headless CMS']
+draft: false
+summary: A simple Next.js application that demonstrates fetching data hosted on a Headless CMS called Strapi through an API.
+images: ['/images/next-strapi/cover.png']
+---
+
+A headless content management system (CMS) like Strapi is very handy in terms of managing digital content. You have a GUI exposed to register the Content-Type and the content itself through a user-friendly and clean interface. If you are a blogger or want to spin up a website real quick you might as well want to source all of your blog/website's content from a CMS. Basically, CMS like Strapi exposes an API that can be used to query the content using frontend technologies like React and Next.js.
+
+Today we will look at how easy it is to fetch data hosted on a CMS from a Next.js application. I won't be running through every little piece of configuration instead I would recommend you to try it on your own as it is really simple to set up.
+
+## Create Next.js and Strapi Application
+
+First of all, we need to have two different application set up. One for the frontend (Next.js) for querying the data from Strapi and the other would be the server that would contain the database and server configurations.
+
+```js:next-strapi/frontend
+npx create-next-app .
+```
+
+```js:next-strapi/backend
+npx create-strapi-app . || npx create-strapi-app . --quickstart
+```
+
+> The `--quickstart` flag is used to automatically set the database as SQLite. Since I will be using MongoDB, I would opt for manual installation.
+
+We create two different directories for the frontend and the backend. The frontend directory contains all of the Next.js code while the backend directory contains all the Strapi code.
+
+## Strapi CMS Configuration
+
+Once we start the local server, we have an interface as shown below. This is the typical workspace provided by Strapi to register our content.
+
+<img src="/images/next-strapi/1.png" alt="interface-1" />
+
+The Content-Type builder (on the left-panel) helps us with defining the type of data we will store in the CMS. For this particular tutorial, we will be retrieving information on songs from the CMS. The "Songs" collection will have the following fields: "url", "title", "artist", "genre", as shown in the picture below:
+
+<img src="/images/next-strapi/2.png" alt="interface-2" />
+
+Once we are done defining the types we can now register different songs and store their information in Strapi like so. We have 5 different entries/songs.
+
+<img src="/images/next-strapi/3.png" alt="interface-3" />
+
+## Configuring Database (MongoDB)
+
+As we have our data ready we now need to set up the database. Setting up the database is fairly simple and requires only a few simple configurations.
+
+```js:config/database.js {7}
+module.exports = ({ env }) => ({
+  defaultConnection: 'default',
+  connections: {
+    default: {
+      connector: 'mongoose',
+      settings: {
+        uri: env('DATABASE_URI'),
+      },
+      options: {
+        ssl: true,
+      },
+    },
+  },
+});
+```
+
+> Make sure you have the Database connection string saved in .env file in DATABASE_URI.
+
+For setting up the database, there's concise documentation by Strapi, which can be found [here.](https://strapi.io/documentation/developer-docs/latest/guides/databases.html) Please make sure you go through the MongoDB section (in the documentation) to set up the database.
+
+We are now all set with the backend/server part of our configuration. As you can tell there are only a few configurations required in order to set up Strapi. Quite easy!
+
+## Setting up Next.js for frontend
+
+In our Next.js application, all we have to do is set up the Strapi client in order to make a request to the server for retrieving the content that we stored earlier. The way we set up a Strapi Client is by exporting a class like so:
+
+```js:StrapiClient.js
+export default class StrapiClient {
+  constructor() {}
+
+  async fetchData(path) {
+    const requestUrl = `${process.env.STRAPI_API_URL}${path}`;
+    const response = await fetch(requestUrl);
+    const data = await response.json();
+    return data;
+  }
+}
+```
+
+All we do here is make an asynchronous request to the server and return the response received.
+
+We then create an instance of Strapi Client exported earlier inside `index.js`. We use the instance to fetch data using "getStaticProps" from Next.js and return the data as a prop.
+
+```js:pages/songs/index.js
+const Strapi_Client = new StrapiClient();
+
+const Songs = ({ songsList }) => {
+  return (
+    <div className='songs'>
+      {songsList.map((song) => (
+        <SongCard song={song} key={song._id} />
+      ))}
+    </div>
+  );
+};
+
+export const getStaticProps = async () => {
+  const data = await Strapi_Client.fetchData(`/songs`);
+  return {
+    props: {
+      songsList: data,
+    },
+  };
+};
+```
+
+We have a couple of ways to fetch data in Next.js ("getServerSideProps", "getStaticProps", or "getStaticPaths"). It only makes sense to use "getStaticProps" because we are receiving static data from the CMS and the data will be made available before any user request.
+
+Right after, we map through the "songsList" (which is a prop) and render them in a component called SongCard. The SongCard component would look something like this:
+
+```js:components/SongCard.js
+import Image from 'next/image';
+
+export default function SongCard({ song }) {
+  return (
+    <section className='card'>
+      <Image src={`/images/${song.url}.jpg`} width='300' height='200' />
+      <div className='container'>
+        <h3>Track - {song.title}</h3>
+        <h4>Artist - {song.artist}</h4>
+        <h5>Genre - {song.genre}</h5>
+      </div>
+    </section>
+  );
+}
+```
+
+There's not a lot going on here. We receive the songs as a prop and then use them to display their content in the form of a card. The rendered view will look something like this:
+
+<img src="/images/next-strapi/app-screen.png" alt="app-screen" />
+
+Here we have all the content (title, artist, and genre) coming from Strapi CMS when we hit the route `/songs`.
+
+## Conclusion
+
+Setting up a Headless CMS like Strapi is not at all tedious and requires very little configuration. Strapi provides an interface and a pragmatic API which makes registering and retrieving data very easy. Well if you want to try out Headless CMS for your next project I might have something good to prove it's worth. Let us talk through some of the benefits of using a Headless CMS like Strapi and Contentful.
+
+### Benefits of using Headless CMS
+
+1. <u>
+     <i>Flexibility:</i>
+   </u> With the traditional CMS, developers had a lot less to contribute in terms of the frontend. They
+   had a few templates they had to rely on. But with the advent of Headless CMS, developers can choose
+   their frontend framework of choice and can heavily focus on building a rich user experience.
+
+2. <u>
+     <i>Compatibility:</i>
+   </u> You don't have to worry about the user experience on different devices. Headless CMS makes it
+   easy to display content on any device-type from just one convenient backend.
+
+3. <u>
+     <i>Scalability:</i>
+   </u> The idea behind scalability in Headless CMS is fairly simple. The backend and frontend are basically
+   de-coupled, unlike traditional CMS. So if you want to customize your frontend which means there is
+   no need to touch any backend code. Hence, the service is always live which helps us avoid any downtime
+   due to maintenance.
+
+So there you go, those were a few benefits of using Headless CMS. And the list doesn't necessarily stop here. There are a number of benefits including the fact that developers can now spend more time focusing on content creation rather than content management is a huge plus. And, if you don't already know:
+
+> Spotify uses Next.js and Contentful for their platform for artists tool to help them promote music.
+
+## References
+
+- The repo for this blog can be found [here.](https://github.com/Boro23-wq/Next.js-Strapi-CMS)
+- Headless CMS - [Blog by KeyCDN](https://www.keycdn.com/blog/headless-cms)
+- Headless CMS - [Pros and Cons](https://www.softkraft.co/headless-cms-pros-cons/)
