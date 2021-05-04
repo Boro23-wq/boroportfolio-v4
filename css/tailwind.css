@@ -10,6 +10,10 @@
   @apply mt-0 rounded-t-none bg-gray-900 border-b border-l border-r border-t border-gray-800;
 }
 
+.prose pre {
+  @apply mt-0 bg-gray-900 border-b border-l border-r border-t border-gray-800;
+}
+
 .task-list-item:before {
   @apply hidden;
 }
