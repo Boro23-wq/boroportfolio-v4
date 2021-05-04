@@ -3,11 +3,13 @@ import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import { BlogSeo } from '@/components/SEO'
 import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
+import siteMetdata from '@/data/siteMetadata'
 
-const editUrl = (fileName) => `${siteMetadata.siteRepo}/blob/master/data/blog/${fileName}`
+const editUrl = (fileName) => `${siteMetdata.siteRepo}/blob/master/data/blog/${fileName}`
 const discussUrl = (slug) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/blog/${slug}`)}`
+  `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+    `${siteMetdata.siteUrl}/blog/${slug}`
+  )}`
 
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
@@ -16,7 +18,7 @@ export default function PostLayout({ children, frontMatter, next, prev }) {
 
   return (
     <SectionContainer>
-      <BlogSeo url={`${siteMetadata.siteUrl}/blog/${frontMatter.slug}`} {...frontMatter} />
+      <BlogSeo url={`${siteMetdata.siteUrl}/blog/${frontMatter.slug}`} {...frontMatter} />
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="pt-6 xl:pb-6">
@@ -26,7 +28,7 @@ export default function PostLayout({ children, frontMatter, next, prev }) {
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <time dateTime={date}>
-                      {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
+                      {new Date(date).toLocaleDateString(siteMetdata.locale, postDateTemplate)}
                     </time>
                   </dd>
                 </div>
@@ -45,17 +47,17 @@ export default function PostLayout({ children, frontMatter, next, prev }) {
               <dd>
                 <ul className="flex justify-center space-x-8 xl:block sm:space-x-12 xl:space-x-0 xl:space-y-8">
                   <li className="flex items-center space-x-2">
-                    <img src={siteMetadata.image} alt="avatar" className="w-10 h-10 rounded-full" />
+                    <img src={siteMetdata.image} alt="avatar" className="w-10 h-10 rounded-full" />
                     <dl className="text-sm font-medium leading-5 whitespace-nowrap">
                       <dt className="sr-only">Name</dt>
-                      <dd className="text-gray-900 dark:text-gray-100">{siteMetadata.author}</dd>
+                      <dd className="text-gray-900 dark:text-gray-100">{siteMetdata.author}</dd>
                       <dt className="sr-only">Twitter</dt>
                       <dd>
                         <Link
-                          href={siteMetadata.twitter}
+                          href={siteMetdata.twitter}
                           className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
                         >
-                          {siteMetadata.twitter.replace('https://twitter.com/', '@')}
+                          {siteMetdata.twitter.replace('https://twitter.com/', '@')}
                         </Link>
                       </dd>
                     </dl>
@@ -67,7 +69,7 @@ export default function PostLayout({ children, frontMatter, next, prev }) {
               <div className="pt-10 pb-8 prose dark:prose-dark max-w-none">{children}</div>
               <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
                 <Link href={discussUrl(slug)} rel="nofollow">
-                  {'Discuss on Twitter'}
+                  {'Discuss on Linkedin'}
                 </Link>
                 {` • `}
                 <Link href={editUrl(fileName)}>{'View on GitHub'}</Link>
@@ -80,7 +82,7 @@ export default function PostLayout({ children, frontMatter, next, prev }) {
                     <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
                       Tags
                     </h2>
-                    <div className="flex flex-wrap">
+                    <div className="mt-1 flex flex-wrap">
                       {tags.map((tag) => (
                         <Tag key={tag} text={tag} />
                       ))}
@@ -94,7 +96,7 @@ export default function PostLayout({ children, frontMatter, next, prev }) {
                         <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
                           Previous Article
                         </h2>
-                        <div className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400">
+                        <div className="transition duration-500 ease-in-out text-gray-500 hover:text-gray-700 dark:text-gray-600 dark:hover:text-gray-500">
                           <Link href={`/blog/${prev.slug}`}>{prev.title}</Link>
                         </div>
                       </div>
@@ -104,7 +106,7 @@ export default function PostLayout({ children, frontMatter, next, prev }) {
                         <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
                           Next Article
                         </h2>
-                        <div className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400">
+                        <div className="transition duration-500 ease-in-out  text-gray-500 hover:text-gray-700 dark:text-gray-600 dark:hover:text-gray-500">
                           <Link href={`/blog/${next.slug}`}>{next.title}</Link>
                         </div>
                       </div>
@@ -115,7 +117,7 @@ export default function PostLayout({ children, frontMatter, next, prev }) {
               <div className="pt-4 xl:pt-8">
                 <Link
                   href="/blog"
-                  className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
+                  className="transition duration-300 ease-in-out bg-gray-100 p-2.5 rounded-md text-gray-500 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 dark:bg-gray-900"
                 >
                   &larr; Back to the blog
                 </Link>
