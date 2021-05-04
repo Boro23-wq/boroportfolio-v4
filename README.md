@@ -1,25 +1,14 @@
-![tailwind-nextjs-banner](/public/static/images/twitter-card.png)
+## Boro's Portfolio (v3)
 
-# Tailwind Nextjs Starter Blog
+My previous portfolio was built with Gatsby and I had used it for sometime now. But I decided to switch from Gatsby to Next.js recently due to some attributable Next.js features out-of-the-box. The portfolio also contains my blogs which makes it very easy for me to manage my content. Overall, the portfolio is built with Next.js, MDX, Tailwind, Chakra UI and is deployed in Vercel.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/timlrx/tailwind-nextjs-starter-blog)
+## Tech Stack
 
-This is a [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/) blogging starter template. Comes out of the box configured with the latest technologies to make technical writing a breeze. Easily configurable and customizable. Perfect as a replacement to existing Jekyll and Hugo individual blogs.
-
-## Examples
-
-- [Demo Blog](https://tailwind-nextjs-starter-blog.vercel.app/) - this repo
-- [My personal blog](https://www.timlrx.com) - modified to auto-generate blog posts with dates
-
-Using the template? Happy to accept any PR with modifications made e.g. sub-paths, localization or multiple authors
-
-## Motivation
-
-I wanted to port my existing blog to Nextjs and Tailwind CSS but there was no easy out of the box template to use so I decided to create one.
-
-It is inspired by [Lee Robinson's blog](https://github.com/leerob/leerob.io), but focuses only on static site generation. Design is adapted from [Tailwindlabs blog](https://github.com/tailwindlabs/blog.tailwindcss.com).
-
-I wanted it to be nearly as feature-rich as popular blogging templates like [beautiful-jekyll](https://github.com/daattali/beautiful-jekyll) and [Hugo Academic](https://github.com/wowchemy/wowchemy-hugo-modules) but with the best of React's ecosystem and current web development's best practices.
+- [Next.js](https://nextjs.org)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Chakra UI](https://chakra-ui.com)
+- [MDX](https://mdxjs.com)
+- [Vercel](https://vercel.com)
 
 ## Features
 
@@ -37,22 +26,22 @@ I wanted it to be nearly as feature-rich as popular blogging templates like [bea
 - Projects page
 - SEO friendly with RSS feed, sitemaps and more!
 
-## Sample posts
+## Content Breakdown
 
-- [A markdown guide](https://tailwind-nextjs-starter-blog.vercel.app/blog/github-markdown-guide)
-- [Learn more about images in Next.js](https://tailwind-nextjs-starter-blog.vercel.app/blog/guide-to-using-images-in-nextjs)
-- [A tour of math typesetting](https://tailwind-nextjs-starter-blog.vercel.app/blog/deriving-ols-estimator)
-- [Simple MDX image grid](https://tailwind-nextjs-starter-blog.vercel.app/blog/pictures-of-canada)
-- [Example of long prose](https://tailwind-nextjs-starter-blog.vercel.app/blog/the-time-machine)
+- `pages/api/` - Contains all the API routes. On my portfolio, I only have two API routes, namely `now-playing` and `top-tracks`.
+- `data/blog/` - All the static blogs are within this directory. Written using MDX.
+- `pages/` - Static pages like `Home`, `Blog`, `Projects` and `About`.
+- `styles/` - All the styles related files can be found here.
 
 ## Quick Start Guide
 
-1. `npx degit https://github.com/timlrx/tailwind-nextjs-starter-blog.git`
-2. Personalize `siteMetadata.json`
-3. Modify `projectsData.js`
-4. Modify `headerNavLinks.js` to customize navigation links
-5. Add blog posts
-6. Deploy on Vercel
+1. Fork this project
+2. Rename the project to <yourusername>.github.io
+3. Personalize `siteMetadata.json`
+4. Modify `projectsData.js`
+5. Modify `headerNavLinks.js` to customize navigation links
+6. Add blog posts
+7. Deploy on Vercel
 
 ## Development
 
@@ -123,20 +112,6 @@ summary: 'Looking for a performant, out of the box template, with all the best i
 images: ['/static/images/canada/mountains.jpg', '/static/images/canada/toronto.jpg']
 ---
 ```
-
-### Compose
-
-`scripts/compose.js` can be used to easily generate a post with pre-filled front matter.
-
-The first argument is the name of the post and the second optional argument is the extension (default to .mdx)
-
-Example code to generate the post called "My First Post" in markdown format
-
-```
-node ./scripts/compose.js "My First Post" .md
-```
-
-This will generate `./data/blog/my-first-post.md` with pre-filled front matter.
 
 ## Deploy
 
