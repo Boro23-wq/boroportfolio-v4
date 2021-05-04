@@ -118,7 +118,7 @@ module.exports = {
               color: theme('colors.gray.100'),
             },
             code: {
-              backgroundColor: theme('colors.gray.800'),
+              backgroundColor: theme('colors.gray.900'),
             },
             hr: { borderColor: theme('colors.gray.700') },
             'ol li:before': {
