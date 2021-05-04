@@ -1,0 +1,113 @@
+---
+title: history.push not re-rendering component.
+date: '2020-10-07'
+tags: ['Bug', 'React Router']
+draft: false
+summary: React-router got me agitated indefinitiely. Problem with history and react-router versioning.
+---
+
+I had tried to solve a severe bug (for several weeks FYI), which eventually comprehended to be a really stupid missing piece that delayed my moment of exaltation pretty much for 3 weeks to be precise.
+
+Do you know what the best part is? It wasn't just me who was perplexed with this bug, but a few others that had spent a great amount of time in scrutiny.
+
+The bug was with the `react-router` package. If you want to reproduce the bug and try it yourself or want to check out the community discussion you can visit the link below.
+
+- [history.push not re-rendering component.](https://github.com/ReactTraining/react-router/issues/7415)
+
+## What was the bug all about?
+
+Well here's the gist. Let us imagine we have two components, `CreateProduct` and `AllProducts`. The CreateProduct component essentially creates a Product (through react form) and sends a POST request to the backend API for persistent storage. It then uses history props passed in tacitly by react-router to route to the AllProducts page. The AllProducts page lists out all the products that have been created.
+
+But the problem was that when we redirected to the AllProducts page from CreateProduct, the most recent item that was created didn't show up until hard reload. I believe it was probably a case of local mutation. But to sum up:
+
+- The bug was that `history.push` redirected me to the desired page but wasn't re-rendering the component with the new data.
+- And, it required a subsequent hard refresh for the new data to be rendered on the page.
+
+## Components
+
+The AllProducts component had a `useEffect` hook that ran but couldn't find any new data and hence it wasn't re-rendering the component.
+
+```javascript
+const AllProducts = () => {
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+    setLoading(false);
+  }, []);
+```
+
+Below I have attached a code snippet of the CreateProduct component. This is where we made a POST request to the backend API for storing the data, and as you can see we have a history.push method right in the .then promise chain.
+
+```javascript
+    axios
+      .post(api, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(() => {
+        history.push('/allproducts');
+      })
+  };
+
+```
+
+## Possible Solutions
+
+If you have made us of the history npm package for session storage, a possible solution could be looking to install a particular version of history compatible with react-router as mentioned below.
+
+```bash
+$ npm list history
+npm list v1.13.0
+
+├─ history@5.0.0
+├─ react-router-dom@5.2.0
+│  └─ history@4.10.1
+└─ react-router@5.2.0
+   └─ history@4.10.1
+
+$ npm i history@4.10.1
+```
+
+A few of them in the community suggested that using `history@4.10.1` with `react-router-dom@5.2.0` happens to solve the issue.
+
+And a few other suggests that to prevent calling `history.push` on render we can wrap it around useEffect hook.
+
+Unfortunately, none of them worked for me. I relentlessly tried every single fix that might budge the bug down but that certainly didn't happen.
+
+## What worked for me? The Fix.
+
+We have the same AllProducts component here. The [React Docs](https://reactjs.org/docs/hooks-effect.html) suggested that useEffect hook API accepts a second argument.
+
+> You can tell React to skip applying an effect if certain values haven’t changed between re-renders. To do so, pass an array as an optional second argument to useEffect.
+
+```javascript
+const AllProducts = () => {
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+    setLoading(false);
+  }, []);
+```
+
+We pass an empty array as a second argument for React to re-render only when the value changes or a new data is added. It turns out I didn't pass the products list inside the useEffect hook as a second parameter and React knew nothing about new data being drilled until the hard refresh.
+
+And right after I passed the products inside the useEffect like so
+
+```javascript
+const AllProducts = () => {
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+    setLoading(false);
+  }, [products]);
+```
+
+everything worked out as normal and the AllProducts component was now re-rendering and was updating the stale data with the new data.
+
+Welp! That was probably a word that I missed and the world was falling apart. I very rightly know that it was a ingenuous missing piece on my part and it took me atleast a couple weeks to figure it out, but you know what, that's what coding teaches you. It taught me to be reselient and learn something the hard way.
+
+Happy Coding!

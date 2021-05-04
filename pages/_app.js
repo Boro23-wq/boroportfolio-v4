@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }) {
           <meta content="width=device-width, initial-scale=1" name="viewport" />
         </Head>
         <DefaultSeo {...SEO} />
+        <div className="bg-gradient-to-r from-red-600 via-pink-600 to-purple-600 pt-1.5" />
         <LayoutWrapper>
           <Component {...pageProps} />
         </LayoutWrapper>

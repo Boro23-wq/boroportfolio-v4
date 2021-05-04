@@ -1,0 +1,251 @@
+---
+title: Write a custom reusable Hook (useFetch).
+date: '2020-09-17'
+tags: ['Development', 'Hooks', 'React']
+draft: false
+summary: Demonstrating how to build a custom reusable Hook 'useFetch' for React application.
+images: ['/images/custom-hook/cover.png']
+---
+
+Today we are going to write a reusable custom hook, and build a simple application that will make use of the hook. If you don't already know hooks were a part of React from v16.8 onwards. They were essentially included as a feature to avoid using classes or class-based components. We can leverage state and other React features the same way we did while using React class-based components. Hooks are just a cleaner way to write programs in React.
+
+What we will have by the end of the tutorial are two components mainly a `User` component and a `Post` component. Each of these components will pass an ID using fetch to make a request against the JSON Place holder API. If the user and the post with respective `IDs` exists, the data will be displayed. And, if they don't exist we'll display some kind of texts notifying that the data wasn't found.
+
+Now one of the hunches that we will encounter while writing the component is that we'll probably end up writing very similar code. So to avoid writing any repetitive code we write a custom hook component that our User and Post component concurrently leverages for requesting and retrieving data.
+
+## Basic Setup
+
+The only setup you will need for this application is having a react app. Run the following command to get started:
+
+```bash
+npx create-react-app .
+```
+
+**_Note: Make sure you have npm version > 5.2, to be able to run npx._**
+
+If not update your npm using:
+
+```bash
+npm install -g npm@latest
+```
+
+After you update the npm to the latest stable version, you can now use the npx command to create the react app.
+
+## Folder Structure
+
+Everything that we will work on will reside inside the `src` directory, so we don't need to worry about anything else.
+
+The basic folder structure after creating the react app will look something like this:
+
+```js
+src / App.js
+----App.css
+----index.js
+----index.css
+```
+
+You might have more files than this. In case you do, go ahead and delete those files as we will no longer need them for this application.
+
+**_Note: I have only highlighted the src folder since we will only be working inside this directory._**
+
+Now that we have the basic structure ready, we can keep going.
+
+## Creating a components directory
+
+Create a `/components` directory inside of `/src`, that will hold all of our components.
+
+<!-- Now inside `/components` directory, go ahead and create three different directories. The first one being `/card` that will be the container holding the user and post data. The second directory will be the `/user` directory that contains our user component while the third is the `/post` directory that will contain the post component.
+
+Inside `/card`, `/user` and `/post` directories create its files card.component.jsx, user.component.jsx and post.component.jsx respectively. -->
+
+Now inside components directory, go ahead and create three different directories. The first one being card that will be the container holding the user and post data. The second directory will be the user directory that contains our user component while the third is the post directory that will contain the post component.
+
+Inside card, user and post directories create the files card.component.jsx, user.component.jsx and post.component.jsx respectively.
+
+**_Note: The card directory will have a card.css file for styling the card container._**
+
+The folder structure will look something like this after creating all the files:
+
+```js
+-> src/
+---> components/
+-----> card/
+-------> card.component.jsx
+-------> card.css
+-----> user/
+-------> user.component.jsx
+-----> post/
+-------> post.component.jsx
+```
+
+## Card Component
+
+The card component essentially holds the User and the Post data.
+
+```js:src/components/card/card.component.jsx
+import React from 'react';
+
+import './card.css';
+
+const Card = ({ children }) => <div className='card'>{children}</div>;
+
+export default Card;
+```
+
+Styling the card component to make it look decent.
+
+```css:src/components/card/card.css
+.card {
+  background-color: lightgoldenrodyellow;
+  min-width: 300px;
+  max-width: 600px;
+  min-height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  flex-direction: column;
+  padding: 30px;
+  font-size: 20px;
+}
+
+.card > button {
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+  border-radius: 5px;
+  min-width: 90px;
+  min-height: 30px;
+  font-size: 16px;
+  margin: 10px 0;
+  padding: 10px;
+}
+```
+
+## User Component
+
+The User component displays the user data.
+
+```js:src/components/user/user.component.jsx
+import React from 'react';
+
+import Card from '../card/card.component';
+
+import useFetch from '../../effects/use-fetch.effect';
+
+const User = ({ userId }) => {
+  const user = useFetch(
+    `https://jsonplaceholder.typicode.com/users?id=${userId}`
+  );
+
+  return (
+    <Card>
+      {user ? (
+        <div>
+          <h3>{user.username}</h3>
+          <p>{user.name}</p>
+        </div>
+      ) : (
+        <p>User not found</p>
+      )}
+    </Card>
+  );
+};
+
+export default User;
+```
+
+We notice there is an import `useFetch` that we haven't written yet. Don't be surprised, but that will be the custom hook we will be writing a little later.
+
+## Post Component
+
+The Post component will display the post data as expected.
+
+```js:src/components/post/post.component.jsx
+import React from 'react';
+
+import Card from '../card/card.component';
+
+import useFetch from '../../effects/use-fetch.effect';
+
+const Post = ({ postId }) => {
+  const post = useFetch(
+    `https://jsonplaceholder.typicode.com/posts?id=${postId}`
+  );
+
+  return (
+    <Card>
+      {post ? (
+        <div>
+          <h3> {post.title} </h3>
+          <p> {post.body} </p>
+        </div>
+      ) : (
+        <p> No post found </p>
+      )}
+    </Card>
+  );
+};
+
+export default Post;
+```
+
+We import `useFetch` here as well. Let us now go ahead and create a separate component for the hook.
+
+## useFetch Hook
+
+Inside components directory create another directory called effects and inside effects create a file named `use-fetch.effect.js`. The same file will hold all the logic of actually making a fetch request to the API and returning the response back to the components.
+
+```js:src/components/effects/use-fetch.effect.js
+import { useState, useEffect } from 'react';
+
+const useFetch = (url) => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(url);
+      const dataArray = await res.json();
+      setData(dataArray[0]);
+    };
+
+    fetchData();
+  }, [url]);
+
+  return data;
+};
+
+export default useFetch;
+```
+
+The useFetch custom hook accepts a 'URL' parameter, does the fetching, and returns the data to the components that requested the data. That is all the useFetch custom hook does pretty much. Instead of us fetching data from each of these components we now leverage useFetch as a reusable component. And next time we have another component that requires the same component logic, we already have useFetch that can do the trick for us.
+
+## App.js
+
+Now for us to display the data on our browser we need to hook our components inside of App.js and pass the id as props that the components receive.
+
+```js:src/App.js
+import React from 'react';
+
+import User from './components/user/user.component';
+import Post from './components/post/post.component';
+
+import './App.css';
+
+const App = (props) => {
+  return (
+    <div className='App'>
+      <User userId={5} />
+      <Post postId={15} />
+    </div>
+  );
+};
+
+export default App;
+```
+
+And after all that is done, we can now see something like this on the screen.
+
+<img src="/images/custom-hook/final.png" alt="application-demo" />
+
+There you go, we have our custom hook up and running. Understandably a custom hook is very much a necessity when we write components that use the same component logic. This process bares us from writing any repetitive code and instead write a reusable custom hook component that can be levearaged by various components at a time.
