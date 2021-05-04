@@ -1,83 +1,183 @@
 
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <title>Next.js Starter Blog</title>
-      <link>https://tailwind-nextjs-starter-blog.vercel.app/blog</link>
-      <description>A blog created with Next.js and Tailwind.css</description>
+      <title>Portfolio</title>
+      <link>https://boroportfolio-v4.vercel.app/blog</link>
+      <description>I write about exciting technologies, development and best practices at large.</description>
       <language>en-us</language>
-      <managingEditor>address@yoursite.com (Tails Azimuth)</managingEditor>
-      <webMaster>address@yoursite.com (Tails Azimuth)</webMaster>
-      <lastBuildDate>Tue, 12 Jan 2021 00:00:00 GMT</lastBuildDate>
-      <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/index.xml" rel="self" type="application/rss+xml"/>
+      <managingEditor>sboro2899@gmail.com (Sintu Boro)</managingEditor>
+      <webMaster>sboro2899@gmail.com (Sintu Boro)</webMaster>
+      <lastBuildDate>Fri, 12 Mar 2021 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://boroportfolio-v4.vercel.app/index.xml" rel="self" type="application/rss+xml"/>
       
   <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/introducing-tailwind-nextjs-starter-blog</guid>
-    <title>Introducing Tailwind Nexjs Starter Blog</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/introducing-tailwind-nextjs-starter-blog</link>
-    <description>Looking for a performant, out of the box template, with all the best in web technology to support your blogging needs? Checkout the Tailwind Nextjs Starter Blog template.</description>
-    <pubDate>Tue, 12 Jan 2021 00:00:00 GMT</pubDate>
-    <author>address@yoursite.com (Tails Azimuth)</author>
-    <category>next-js</category><category>tailwind</category><category>guide</category>
+    <guid>https://boroportfolio-v4.vercel.app/blog/netflix-architecture</guid>
+    <title>How Netflix - a popular media streaming service onboards and delivers its content to millions of users.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/netflix-architecture</link>
+    <description>We try to design a system much like Netflix that would scale to millions of users worldwide and talk through possible architectures and microservices that can help deliver an online streaming service.</description>
+    <pubDate>Fri, 12 Mar 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Netflix</category><category>Architecture</category><category>System Design</category>
   </item>
 
   <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/guide-to-using-images-in-nextjs</guid>
-    <title>Images in Next.js</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/guide-to-using-images-in-nextjs</link>
-    <description>In this article we introduce adding images in the tailwind starter blog and the benefits and limitations of the next/image component.</description>
-    <pubDate>Wed, 11 Nov 2020 00:00:00 GMT</pubDate>
-    <author>address@yoursite.com (Tails Azimuth)</author>
-    <category>next js</category><category>guide</category>
+    <guid>https://boroportfolio-v4.vercel.app/blog/zustand</guid>
+    <title>Zustand - A simple, fast, and convenient state-management solution using Hooks API.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/zustand</link>
+    <description>Zustand is a small, fast and scaleable state-management solution for your application.</description>
+    <pubDate>Tue, 02 Mar 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Development</category><category>State management</category><category>React</category>
   </item>
 
   <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/deriving-ols-estimator</guid>
-    <title>Deriving the OLS Estimator</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/deriving-ols-estimator</link>
-    <description>How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.</description>
-    <pubDate>Sat, 16 Nov 2019 00:00:00 GMT</pubDate>
-    <author>address@yoursite.com (Tails Azimuth)</author>
-    <category>next js</category><category>math</category><category>ols</category>
+    <guid>https://boroportfolio-v4.vercel.app/blog/web-vitals</guid>
+    <title>Core Web Vitals can remediate your website's bad user experience.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/web-vitals</link>
+    <description>Core Web Vitals uses metrices like Largest Contentful Paint, First Input Delay and Cumulative Layout Shift to determine the overall user-experience of your website.</description>
+    <pubDate>Mon, 15 Feb 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Development</category><category>UX</category><category>SEO</category>
   </item>
 
   <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/github-markdown-guide</guid>
-    <title>Markdown Guide</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/github-markdown-guide</link>
-    <description>Markdown cheatsheet for all your blogging needs - headers, lists, images, tables and more! An illustrated guide based on Github Flavored Markdown.</description>
-    <pubDate>Fri, 11 Oct 2019 00:00:00 GMT</pubDate>
-    <author>address@yoursite.com (Tails Azimuth)</author>
-    <category>github</category><category>guide</category>
+    <guid>https://boroportfolio-v4.vercel.app/blog/module-federation</guid>
+    <title>Module Federation in Next.js (Available as a Webpack plugin)</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/module-federation</link>
+    <description>Module federation allows sharing of isolated builds between applications at runtime. It is also available as a webpack v5 plugin.</description>
+    <pubDate>Wed, 10 Feb 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Next.js</category><category>Webpack</category><category>Feature</category>
   </item>
 
   <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/the-time-machine</guid>
-    <title>The Time Machine</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/the-time-machine</link>
-    <description>The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us. His pale grey eyes shone and twinkled, and his usually pale face was flushed and animated...</description>
-    <pubDate>Wed, 15 Aug 2018 00:00:00 GMT</pubDate>
-    <author>address@yoursite.com (Tails Azimuth)</author>
-    <category>writings</category><category>book</category><category>reflection</category>
+    <guid>https://boroportfolio-v4.vercel.app/blog/styled-components</guid>
+    <title>Styled Components in React.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/styled-components</link>
+    <description>Enhance dynamic styling in your React components using Javascript’s ES6 syntax. Automatic critical CSS, no class name bugs, and easier deletion of CSS.</description>
+    <pubDate>Sun, 07 Feb 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Styled Components</category>
   </item>
 
   <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/pictures-of-canada</guid>
-    <title>O Canada</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/pictures-of-canada</link>
-    <description>The scenic lands of Canada featuring maple leaves, snow-capped mountains, turquoise lakes and Toronto. Take in the sights in this photo gallery exhibition and see how easy it is to replicate with some MDX magic and tailwind classes.</description>
-    <pubDate>Sat, 15 Jul 2017 00:00:00 GMT</pubDate>
-    <author>address@yoursite.com (Tails Azimuth)</author>
-    <category>holiday</category><category>canada</category><category>images</category>
+    <guid>https://boroportfolio-v4.vercel.app/blog/absolute-imports-and-path-aliases</guid>
+    <title>Absolute imports and module path aliases are a game changer!</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/absolute-imports-and-path-aliases</link>
+    <description>Absolute imports and module path alias helps us avoid writing the exact import path of a deeply-rooted component.</description>
+    <pubDate>Tue, 19 Jan 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Next.js</category><category>Feature</category><category>Development</category>
   </item>
 
   <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/code-sample</guid>
-    <title>Sample .md file</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/code-sample</link>
-    <description>Example of a markdown file with code blocks and syntax highlighting</description>
-    <pubDate>Tue, 08 Mar 2016 00:00:00 GMT</pubDate>
-    <author>address@yoursite.com (Tails Azimuth)</author>
-    <category>markdown</category><category>code</category><category>features</category>
+    <guid>https://boroportfolio-v4.vercel.app/blog/next-strapi</guid>
+    <title>Data Fetching (useStaticProps) in Next.js using Headless CMS Strapi.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/next-strapi</link>
+    <description>A simple Next.js application that demonstrates fetching data hosted on a Headless CMS called Strapi through an API.</description>
+    <pubDate>Thu, 14 Jan 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Headless CMS</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/redux-context-api</guid>
+    <title>Redux/Context API for state management in React.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/redux-context-api</link>
+    <description>Is Context API better than Redux for state management? Know how they help avoid the concept of prop drilling!</description>
+    <pubDate>Sat, 09 Jan 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>State Management</category><category>React</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/stable-incremental-static-regeneration</guid>
+    <title>Stable Incremental Static Re-generation (Next.js 9.5+).</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/stable-incremental-static-regeneration</link>
+    <description>Next.js has introduced a very handy feature called Incremental Static Re-generation from versions 9.5 and above. Know what the fuss is about!</description>
+    <pubDate>Wed, 06 Jan 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Feature</category><category>Next.js</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/swr</guid>
+    <title>SWR - React Hooks library for remote data fetching.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/swr</link>
+    <description>SWR or stale-while-revalidate helps developers to immediately load cached data and ensure freshness of the data by updating the cached content later.</description>
+    <pubDate>Tue, 05 Jan 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Next.js</category><category>Feature</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/seo-optimizations</guid>
+    <title>Accessibility and SEO optimizations in Next.js application (Lighthouse).</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/seo-optimizations</link>
+    <description>An application demonstrating simple tweaks to boost SEO and Accessibility the right way!</description>
+    <pubDate>Mon, 04 Jan 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>SEO</category><category>PageRank</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/nextjs-static-json</guid>
+    <title>Next.js (useStaticProps, useStaticPaths) + Static JSON Data.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/nextjs-static-json</link>
+    <description>There are multiple different ways (useStaticProps, useStaticPaths, useServerSideProps) to fetch data in Next.js. Let's build an application using the different methods.</description>
+    <pubDate>Sat, 12 Dec 2020 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Next.js</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/image-component</guid>
+    <title>Built-in automatic image optimization in Next.js.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/image-component</link>
+    <description>Next.js has introduced Automatic Image Optimization in versions 10.0.0 and above, using a built-in Image Component.</description>
+    <pubDate>Mon, 07 Dec 2020 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Next.js</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/2fa-speakeasy</guid>
+    <title>Two factor authentication (2FA) using Speakeasy, Node and Express.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/2fa-speakeasy</link>
+    <description>Know how to configure a two factor authentication for your application using Speakeasy!</description>
+    <pubDate>Sat, 14 Nov 2020 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Development</category><category>Auth</category><category>Node</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/jamstack</guid>
+    <title>JAMStack - Future of development?</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/jamstack</link>
+    <description>JAMstack is a fairly new modern development architecture based on JavaScript, APIs, and Markup.</description>
+    <pubDate>Wed, 21 Oct 2020 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Jamstack</category><category>Technology</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/react-router-bug</guid>
+    <title>history.push not re-rendering component.</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/react-router-bug</link>
+    <description>React-router got me agitated indefinitiely. Problem with history and react-router versioning.</description>
+    <pubDate>Wed, 07 Oct 2020 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Bug</category><category>React Router</category>
+  </item>
+
+  <item>
+    <guid>https://boroportfolio-v4.vercel.app/blog/custom-hook</guid>
+    <title>Write a custom reusable Hook (useFetch).</title>
+    <link>https://boroportfolio-v4.vercel.app/blog/custom-hook</link>
+    <description>Demonstrating how to build a custom reusable Hook 'useFetch' for React application.</description>
+    <pubDate>Thu, 17 Sep 2020 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Development</category><category>Hooks</category><category>React</category>
   </item>
 
     </channel>
