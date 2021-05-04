@@ -79,7 +79,7 @@ export default function About() {
               </div>
             </div>
             <pre className="font-semibold">
-              &gt; Thats all me. Thanks for checking out.{' '}
+              &gt; Thanks for checking out.{' '}
               <span role="img" aria-label="waving-emoji">
                 👋
               </span>
