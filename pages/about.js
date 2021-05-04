@@ -1,5 +1,5 @@
-import { Avatar } from '@chakra-ui/react'
-import { ArrowRightIcon } from '@chakra-ui/icons'
+// import { Avatar } from '@chakra-ui/react'
+// import { ArrowRightIcon } from '@chakra-ui/icons'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
 import { PageSeo } from '@/components/SEO'
@@ -16,7 +16,7 @@ export default function About() {
       <div className="divide-y-2 divide-gray-100 dark:divide-gray-900">
         <div className="pt-6 pb-8 space-y-2 md:space-y-5">
           <h1 className="text-4xl font-black leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            Hey there, I'm {siteMetadata.author.split(' ')[1]}.
+            Hey, I'm {siteMetadata.author.split(' ')[1]}.
           </h1>
         </div>
         <div className="items-start space-y-2 xl:grid xl:grid-cols-3 xl:gap-x-8 xl:space-y-0">
@@ -25,7 +25,7 @@ export default function About() {
             <img
               src={siteMetadata.image}
               alt={siteMetadata.author}
-              className="w-48 h-48 rounded-full"
+              className="w-36 h-36 rounded-full"
             />
             <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">
               {siteMetadata.author}
@@ -45,8 +45,8 @@ export default function About() {
             </div>
           </div>
           <div className="pt-8 pb-8 prose dark:prose-dark max-w-none xl:col-span-2">
-            <div className="mb-4">
-              <div className="text-3xl tracking-tight font-black mb-3">About</div>
+            <div className="mb-6">
+              <div className="text-3xl font-bold mb-3">About</div>
               <div className="flex mb-2">
                 {/* <ArrowRightIcon w={2} h={2} mt={3} mr={4} /> */}‣ I'm a senior year
                 undergraduate studying Computer Science. I work on building highly performant web
@@ -59,17 +59,18 @@ export default function About() {
                 visit my Github profile to know more about my recent activities.
               </div>
             </div>
-            <div className="mb-4">
-              <div className="text-2xl tracking-tight font-black mb-3">UI/UX</div>
+
+            <div className="mb-6">
+              <div className="text-2xl font-bold mb-3">UI/UX</div>
               <div className="flex mb-2">
                 {/* <ArrowRightIcon w={2} h={2} mt={3} mr={4} /> */} ‣ I like building experiences
                 for the web. I build UI/UX concept designs and high-quality websites while looking
                 to power the web with my design aesthetics. If you want to check out some of my
-                work, you may visit my UI/UX portfolio @ boro-ui-ux.webflow.io.
+                work, you may visit my UI/UX portfolio @ • boro-ui-ux.webflow.io.
               </div>
             </div>
             <div className="mb-4">
-              <div className="text-2xl tracking-tight font-black mb-3">Technical Blogging</div>
+              <div className="text-2xl font-bold mb-3">Technical Blogging</div>
               <div className="flex mb-2">
                 {/* <ArrowRightIcon w={2} h={2} mt={3} mr={4} />  */}‣ I write technical blogs as
                 well. My blog circumvents around topics related to full-stack technologies,
@@ -78,6 +79,7 @@ export default function About() {
                 to the Blog section. Pretty sure you would find something readable.
               </div>
             </div>
+            <br />
             <pre className="font-semibold">
               &gt; Thanks for checking out.{' '}
               <span role="img" aria-label="waving-emoji">
