@@ -1,0 +1,167 @@
+---
+title: Nest.js - Architectural Pattern, Controllers, Providers, and Modules.
+date: '2021-05-15'
+tags: ['Backend', 'Framework', 'Node.js']
+draft: false
+summary: We take a look at NestJS, a framework for building efficient, scalable Node.js server-side applications. We will try to understand the overall architectural pattern of NestJS.
+images: ['/images/nestjs/cover.png']
+---
+
+<img style={{ margin: '24px auto', width: '100%' }} src="/images/nestjs/cover.png" alt="cover" />
+
+## Introduction.
+
+> Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications. It uses progressive JavaScript, and is built with and fully supports TypeScript. - NestJS Docs
+
+Essentially, NestJS is a layer on top of Node that has supercharged methods and implementations that can help us write server-side applications quick and easy. Nest is very convenient to content all your needs. It is highly customizable and by default uses Express under the hood but can be optionally configured to use Fastify as well!
+
+## Why might we need Nest.js when we have Node.js
+
+- Nest provides a layer of abstraction on top of Node, which means that it can now leverage the features of Node as well as expose supercharged APIs for better performance and efficiency.
+
+- Developers love features and when you know you got more of them, you simply can't deny it. That's the case with Nest.js. You have now access to tons of third-party modules that can speed up your development process.
+
+- I believe it's not at all a complete deviation from the back-end paradigm. We are still writing the same kind of code, a very similar structure but with an added layer of robustness.
+
+- NestJS is also highly configurable with ORM's (like TypeORM) which we can make use of to work with databases. This again means that you also have great TypeORM features like Active Record and Data Mapper pattern that you can now leverage easily. The Active Record pattern can necessarily help you obtain simplicity while the Data Mapper pattern can help your code be more maintainable.
+
+- Another point to add is that Nest admits that its architecture is heavily inspired by the Angular framework. It's always a good idea of having effortless testing available when in need and a way to maintain the codebase efficiently. And, Nest provides you just that. A much-needed structure!
+
+## 3-Tier Architecture Nest.js is predisposed towards
+
+When we talk about laying down a firm architecture, the most we care about is how we isolate different parts of an application such that the part that makes sense together lives together. Following an architectural pattern can supposedly help resolve spaghetti code that you might be writing.
+
+For example: Considering the flow diagram below, we realize that controllers and service layer work together to carry out a logic but are entirely two different things. Controllers essentially deal with the routes of your application. A controller may have few different routes and it all depends on the routing mechanism to control which controller receives what request. But what if you dump all your business logic inside of the controllers. Maybe register a new user if the user is not yet registered or carry out validation checks just within the controllers.
+
+That doesn't make too much sense after all. It wouldn't probably make much difference if you just have a small application. But when the application grows and you have to register more controllers and routes and have to write more business logic, that's where things seem to get out of control and are certainly not maintainable.
+
+<img
+  style={{ margin: '24px auto', width: '40%' }}
+  src="/images/nestjs/three-tier-architecture.png"
+  alt="three-tier-architecture"
+/>
+
+1. <u>Controllers:</u> A controller's sole purpose is to receive requests for the application and deal
+   with routes.
+2. <u>Service Layer:</u> This part of the block should only include business logic. For example, all
+   the CRUD operations and methods to determine how data can be created, stored and updated.
+3. <u>Data Access Layer:</u> This layer takes care and provides logic to access data stored in persistent
+   storage of some kind. For example an ODM like Mongoose.
+
+## NestJS Project Directory structure
+
+Once you scaffold a new NestJS project using its CLI, it gives you a few boilerplate files to start with. These are the core files that you would normally work with. The directory structure would look something like this:
+
+```
+src
+ | -  app.controller.spec.ts
+ | -  app.controller.ts
+ | -  app.module.ts
+ | -  app.service.ts
+ | -  main.ts
+```
+
+`app.controller.ts` : Controller file that will contain all the application routes. <br/>
+`app.controller.spec.ts` : This file would help writing out unit tests for the controllers. <br/>
+`app.module.ts` : The module file essentially bundles all the controllers and providers of your application together. <br/>
+`app.service.ts` : The service will include methods that will perform a certain operation. For example: Registering a new user. <br/>
+`main.ts` : The entry file of the application will take in your module bundle and create an app instance using the NestFactory provided by Nest. <br/>
+
+Right away you know that there's a certain structure laid out that you need to follow. And that is what helps developers write clean, scalable, and maintainable code.
+
+## Let us look at some code.
+
+Let us create a service file and export a class called CatsService which will implement a few methods which we can import and utilize in our controller file.
+
+```ts:cats.service.ts
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class CatsService {
+  getAllCats(): string {
+    return 'Get all cats!';
+  }
+
+  getOneCat(): string {
+    return 'Get one cat!';
+  }
+}
+```
+
+Here we are exporting a class called `CatsService` and have defined three different methods. We also use `@Injectable()` which is a decorator. The decorator attaches metadata and marks a class available to be provided and injected as a dependency. Since we have injected this class as a dependency, let's use it inside of the controller to retrieve the cats.
+
+```ts:cats.controller.ts
+import { Controller, Get } from '@nestjs/common';
+import { CatsService } from '../services/cats.service';
+
+@Controller('cats')
+export class CatsController {
+  constructor(private readonly catsService: CatsService) {}
+
+  @Get('allcats')
+  getCats(): string {
+    return this.catsService.getAllCats();
+  }
+
+  @Get('onecat')
+  getOneCat(): string {
+    return this.catsService.getOneCat();
+  }
+}
+```
+
+In the controller file, we are importing the CatsService and have instantiated the service inside of the constructor. The CatsService dependency is injected through the class constructor (Dependency Injection). This will expose all the various methods that we have defined inside the CatsService. We can now retrieve the cats using the controller.
+
+> Dependencies are services or objects that a class needs to perform its function. Dependency injection, or DI, is a design pattern in which a class requests dependencies from external sources rather than creating them. - Angular
+
+Here the decorator `@Get()` takes an argument (the method being decorated, in this case, getCats and getOneCat) and returns the same function with added functionality (or a return value in this case, which is a string).
+
+Also, the `@Get()` decorator accepts a pathname that we can make use of to request a particular route. For example, a request to `/cats/allCats` will invoke the method `getCats` and return us all the cats.
+
+### Making a request to the endpoint
+
+Let's request to the endpoint `getAllCats` that we just defined and see what we get returned.
+
+<img
+  style={{ margin: '24px auto', width: '100%' }}
+  src="/images/nestjs/postman.png"
+  alt="postman"
+/>
+
+As we can tell the return result is received as expected. This is technically the pattern that we are going to see a lot with Nest. We have a service file that will implement all the methods/logic of our application while the controller file will take care of returning the results from the services using appropriate routes.
+
+```ts:cats.module.ts
+import { Module } from '@nestjs/common';
+import { CatsController } from './controllers/cats.controller';
+import { CatsService } from './services/cats.service';
+
+@Module({
+  controllers: [CatsController],
+  providers: [CatsService],
+})
+export class CatsModule {}
+```
+
+The module file above bundles all our controllers and providers/services together and exports a class that can be imported to instantiate our application. Every application has at least one root module. Nest uses this root module to create the application graph - the internal data structure Nest uses to resolve module and dependencies.
+
+We can also create multiple feature modules that will help us organize the code relevant to a specific feature. All the feature modules can then be imported inside the root app model. For demonstration, we only have one root module above (the `cats.module.ts` file in this case).
+
+```ts:main.ts
+import { NestFactory } from '@nestjs/core';
+import { CatsModule } from './cats.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(CatsModule);
+  await app.listen(3000);
+}
+bootstrap();
+```
+
+The main file bootstraps a Nest application for us while creating the module (CatsModule) we just created. The main file is the entry point of our application. To create a Nest application instance, Nest uses the core NestFactory class. NestFactory exposes static methods that allow creating an application instance.
+
+There we have it. We have a simplistic NestJS application that pretty much describes the best practices and patterns that NestJS follows and how it can help build scalable, maintainable, and testable code. I hope this introduction to NestJS was fairly simple and can help you understand the blocks and pieces that work together within NestJS.
+
+## References
+
+- NestJS [Documentation](https://docs.nestjs.com/)
+- Node.js project [architecture](https://dev.to/santypk4/bulletproof-node-js-project-architecture-4epf).
