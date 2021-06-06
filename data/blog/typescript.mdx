@@ -1,0 +1,98 @@
+---
+title: Typescript - Supercharged features of a typed-system
+date: '2021-06-05'
+tags: ['Typescript', 'Feature', 'Type-system']
+draft: false
+summary: We discuss the underlying benefits of a typed-system out of the box and how it can help write maintainable, scalable, and less error prone code.
+images: ['/images/typescript-supercharged-features/cover.png']
+---
+
+<div>
+  <img src="/images/typescript-supercharged-features/cover.png" alt="cover" />
+</div>
+
+I have been writing Typescript a lot lately. I'm using it when I work on personal projects or when I'm working with a team. At first, I was just snowed under the fact that I would have to write so much more code and that didn't really motivate me to pick it up. But that didn't really stop me from not trying at all. I've read so many compelling blogs that proved why Typescript is a must-try and how it helps build scalable web applications, that I couldn't help but try and get a taste for myself.
+
+I wanted a resource that will help me get started. I went through the [React Typescript Cheatsheet](https://react-typescript-cheatsheet.netlify.app/) which helped me learn the essence right away. I also used a course from [educative.io](https://www.educative.io/) that helped me understand the building blocks and pieces. Once I was there I almost instantly knew that even though I was writing more code, I made my codebase very predictable and maintainable so to speak.
+
+So here I am trying to get across the features that helped me adopt Typescript almost instantly. I'm pretty sure there are tons of benefits of a typed system, but I would just mention a few that I'm liking the most.
+
+## 1. Code Navigation
+
+We have a `users.service` file that imports a `User` class. A lot of times it might happen that you can't quite remember or not sure what the shape of the `User` object might be, or a teammate of yours wanted to check out your code.
+
+<div>
+  <img
+    src="/images/typescript-supercharged-features/code-navigation-ezgif.gif"
+    alt="code navigation gif"
+  />
+</div>
+
+In that case, you can almost instantly switch between files (or navigate between files). Typescript can help you conveniently navigate between files in your codebase. You can also make use of the shortcuts below to easily navigate between files.
+
+- Go to Definition **(F12)** - Go to the source code of a symbol definition.
+- Peek Definition **(Option or Alt + F12)** - Bring up a Peek window that shows the definition of a symbol.
+- Go to References **(Shift + F12)** - Show all references to a symbol.
+- Go to Implementation **(Cmd or Win + F12)** - Go to the implementations of an interface or abstract method.
+
+## 2. Code Predictability
+
+With code-predictability TypeScript assures that variable/function types don't change and it would only accept the type it was initially defined. If a variable is explicitly given the type - string, it can only hold values of the type - string. All of this makes the codebase so much predictable as you now don't have to worry about things breaking down due to mismatch in types and assignments.
+
+<div>
+  <img
+    src="/images/typescript-supercharged-features/code-predictability-ezgif.gif"
+    alt="code predictability gif"
+  />
+</div>
+
+In the gif above, we notice we have a method called `createUser` that accepts a parameter to create a user. Now, there's definitely a question as to what params it will accept. We try to insert a number but we are instantly thrown a squiggly notifying us about the type-mismatch.
+
+To know more about the type the method accepts we can navigate to the service file. As we can see, the method `createUser` accepts a param of type string. And, now we are pretty sure about the params when we create couple more users in the future.
+
+## 3. Code Refactoring
+
+We have a class called `Users` that we export, which we are using in a lot of files on our codebase. The thing to notice here is that we want to change the `Users` class to be called a `User` (renaming for better naming convention) which makes sense because the `User` class represents the shape of a specific user. Let us try to rename the class and see what we run into.
+
+<div>
+  <img
+    src="/images/typescript-supercharged-features/code-refactoring-ezgif.gif"
+    alt="code refactoring gif"
+  />
+</div>
+
+As you can tell right away from the gif, the controller file turns all red. Not just the controller file but all the files that import the `Users` class will throw an error since the class doesn't exist anymore.
+
+This is how convenient code refactoring is with Typescript. We now just need to rename the class in each of the files it is being imported, rather than trying to figure out where you might have used that class. Also with Typescript, if you change the path to a file, the relative import to that file will be updated without you even having to update, which might be well intimidating if you have a lot of imports for the same file.
+
+## 4. Less-error code
+
+In a paper published by Microsoft, it has been stated that TypeScript could have helped prevent 15% of the public bugs for public projects on GitHub. This number can be quite significant in terms of saving time during the inspection of common bugs. It helps mitigate the situation where you are trying to figure out the common bugs and your focus is completely diverted which is not really ideal.
+
+<div>
+  <img
+    src="/images/typescript-supercharged-features/less-error-code-ezgif.gif"
+    alt="less-code error gif"
+  />
+</div>
+
+Typescript helps to check types during compile time which now means that you'll instantly be thrown an error that could have potentially break your code. It helps prevent shipping buggy code to the production while helping fix bugs relatively faster and with more efficiency.
+
+## 5. Better IntelliSense
+
+IntelliSense helps developers be more efficient while writing code. It provides features such as code completion, parameter info, and quick info, which is essentially a way of hinting you about what's next.
+
+<div>
+  <img
+    src="/images/typescript-supercharged-features/better-intellisense-ezgif.gif"
+    alt="better intellisense gif"
+  />
+</div>
+
+In the gif above we assign the `props` to be of type `addNumbers`. We have defined the type of `addNumbers`. Since we have defined the type of the props, we can now have IntelliSense help us with code completion with the right values and methods.
+
+IntelliSense can do so much more. It can help us with automatic imports, smart renaming of variables, fixing imports when changing relative paths to a file, and removing unused variables/methods.
+
+## Wrap Up
+
+I would highly encourage you to try using TypeScript to have a first-hand experience and to try all the features that it enables, as we discussed earlier. It will very much help skyrocket the productivity levels while you write code and makes your codebase maintainable and scalable. If you are looking for a starting point I highly recommend you to visit the [Typescrit - Getting started](https://www.typescriptlang.org/docs/) guide to get started.
