@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>sboro2899@gmail.com (Sintu Boro)</managingEditor>
       <webMaster>sboro2899@gmail.com (Sintu Boro)</webMaster>
-      <lastBuildDate>Sat, 15 May 2021 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sat, 05 Jun 2021 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://sboro.vercel.app/index.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://sboro.vercel.app/blog/typescript</guid>
+    <title>Typescript - Supercharged features of a typed-system</title>
+    <link>https://sboro.vercel.app/blog/typescript</link>
+    <description>We discuss the underlying benefits of a typed-system out of the box and how it can help write maintainable, scalable, and less error prone code.</description>
+    <pubDate>Sat, 05 Jun 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Typescript</category><category>Feature</category><category>Type-system</category>
+  </item>
+
   <item>
     <guid>https://sboro.vercel.app/blog/nest-js</guid>
     <title>Nest.js - Architectural Pattern, Controllers, Providers, and Modules.</title>
