@@ -27,13 +27,13 @@ const projectsData = [
     imgSrc: '/static/images/time-machine.jpg',
     href: 'https://gizmoshop.herokuapp.com/',
   },
-  {
-    title: 'Covid-19 Tracker (India)',
-    description: `Web application to track the accretion of coronavirus numbers in
-    India. State and district wise data provided.`,
-    imgSrc: '/static/images/time-machine.jpg',
-    href: 'https://indiacovid19stats.netlify.app/',
-  },
+  // {
+  //   title: 'Covid-19 Tracker (India)',
+  //   description: `Web application to track the accretion of coronavirus numbers in
+  //   India. State and district wise data provided.`,
+  //   imgSrc: '/static/images/time-machine.jpg',
+  //   href: 'https://indiacovid19stats.netlify.app/',
+  // },
 ]
 
 export default projectsData

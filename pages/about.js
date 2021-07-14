@@ -48,15 +48,15 @@ export default function About() {
             <div className="mb-6">
               <div className="text-3xl font-bold mb-3">About</div>
               <div className="flex mb-2">
-                {/* <ArrowRightIcon w={2} h={2} mt={3} mr={4} /> */}‣ I'm a senior year
-                undergraduate studying Computer Science. I work on building highly performant web
-                applications. I'm predisposed towards design-centric approach, and at the same time
-                learning to devise high-impact user experiences.
+                {/* <ArrowRightIcon w={2} h={2} mt={3} mr={4} /> */}‣ I'm a Computer Science
+                graduate. I work on building high performant web applications. I'm predisposed
+                towards design-centric approach, and at the same time learning to devise high-impact
+                user experiences.
               </div>
               <div className="flex mb-2">
                 {/* <ArrowRightIcon w={2} h={2} mt={3} mr={4} /> */}‣ Currently, I'm working with
-                Typescript and Next.js predominantly. All my projects are open-sourced. You may
-                visit my Github profile to know more about my recent activities.
+                Typescript, Next.js, and Nest.js predominantly. All my projects are open-sourced.
+                You may visit my Github profile to know more about my recent activities.
               </div>
             </div>
 
