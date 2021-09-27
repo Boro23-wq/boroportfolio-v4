@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>sboro2899@gmail.com (Sintu Boro)</managingEditor>
       <webMaster>sboro2899@gmail.com (Sintu Boro)</webMaster>
-      <lastBuildDate>Sat, 24 Jul 2021 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Fri, 06 Aug 2021 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://sboro.vercel.app/index.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://sboro.vercel.app/blog/csr-ssr-ssg</guid>
+    <title>I built a Pokedex to demonstrate Next.js' data fetching techniques.</title>
+    <link>https://sboro.vercel.app/blog/csr-ssr-ssg</link>
+    <description>Pokedex built using Next.js to demonstrate client-side rendering (CSR), server-side rendering (SSR), and static-site generation (SSG).</description>
+    <pubDate>Fri, 06 Aug 2021 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>Next.js</category><category>CSR</category><category>SSR</category><category>SSG</category>
+  </item>
+
   <item>
     <guid>https://sboro.vercel.app/blog/upload-image-to-s3</guid>
     <title>Upload image to AWS S3 (using Localstack).</title>
