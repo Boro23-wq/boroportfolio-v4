@@ -13,13 +13,13 @@ images: ['/images/csr-ssr-ssg/cover.png']
 
 ## Overview
 
-One of the many reasons why Next.js is gaining so much traction is due to the ability to render an application on the client-side (in the browser), on the server-side as well as statically generate pages during build time. Let us have a good look what each of these terms mean:
+One of the many reasons behind Next.js's traction is due to the ability to render an application on the client-side (in the browser), on the server-side as well as the ability to statically generate pages during build time. Let us have a good look at what each of these terms means:
 
-**1. Client-side rendering:** In a client-side rendered application, the server essentially sents a blank HTML page (loading state) to the client without any dynamic content. You won't really see anything meaningful for split seconds. While the loading state is being rendered, the client (the browser) sents multiple API requests to the desired server to fetch the dynamic content and then later rehydrates the application with the dynamic data.
+**1. Client-side rendering:** In a client-side rendered application, the server essentially sends a blank HTML page (loading state) to the client without any dynamic content. You won't really see anything meaningful for split seconds. While the loading state is being rendered, the client (the browser) sends multiple API requests to the desired server to fetch the dynamic content and then later rehydrates the application with the dynamic data.
 
 **2. Server-side rendering:** In a server-side rendered application, the server pre-renders the page with dynamic data, and eventually once the hydration is done on the server-side, it delivers a fully populated HTML page with dynamic data to the client. Server-side rendering essentially generates the entire HTML for a page on the server.
 
-**3. Static-site regeneration:** Static-site generation generates the pages during build time. Basically a site that is statically generated will produce the HTML pages ahead of time even before any user requests. And, with Next.js' Incremental-static regeneration (ISR), we can statically generate on a per-page basis, without needing to rebuild the entire site, which means that you can update the static pages incrementally as new data comes in.
+**3. Static-site regeneration:** Static-site generation generates the pages during build time. Basically, a site that is statically generated will produce the HTML pages ahead of time even before any user requests. And, with Next.js' Incremental-static regeneration (ISR), we can statically generate on a per-page basis, without needing to rebuild the entire site, which means that you can update the static pages incrementally as new data comes in.
 
 ## How CSR works?
 
@@ -27,7 +27,7 @@ One of the many reasons why Next.js is gaining so much traction is due to the ab
   <img src="/images/csr-ssr-ssg/csr-steps.png" alt="csr-steps" />
 </div>
 
-- When a client sents a request to the server for a webpage, the server sents a blank HTML page (without any dynamic data) to the client.
+- When a client sends a request to the server for a webpage, the server sends a blank HTML page (without any dynamic data) to the client.
 - The client immediately serves the blank HTML page with the loading state. (We would notice loading animations most of the time). That is when the client is making those API requests to fetch the dynamic data.
 - Once the dynamic data is available the client-side/browser re-hydrates the application with the dynamic/new data.
 
@@ -37,9 +37,9 @@ One of the many reasons why Next.js is gaining so much traction is due to the ab
   <img src="/images/csr-ssr-ssg/ssr-steps.png" alt="ssr-steps" />
 </div>
 
-- When a client sents a request to the server for a webpage, the server essentially pre-renders and prepares the HTML page with all the dynamic data.
-- That is the reason why server-side rendering tend to have slow Time To First Byte (TTFB) since they are doing work on the server.
-- Once the server sents the pre-rendered page to the client, the client displays the HTML page. This helps avoid multiple trips to request data from the client-side as well.
+- When a client sends a request to the server for a webpage, the server essentially pre-renders and prepares the HTML page with all the dynamic data.
+- That is the reason why server-side rendering tends to have slow Time To First Byte (TTFB) since they are doing work on the server.
+- Once the server sends the pre-rendered page to the client, the client displays the HTML page. This helps avoid multiple trips to request data from the client-side as well.
 
 ## How SSG works?
 
@@ -48,23 +48,23 @@ One of the many reasons why Next.js is gaining so much traction is due to the ab
 </div>
 
 - The basic static-site generation involves pre-generating or generating the pages (with/without dynamic data) during the build time even before any user requests.
-- Client displays the statically generated page instantly. But there is a certain caveat to this approach. By any chance if we have a lot of pages to pre-generate, that will significantly increase the build time of the application.
+- The client displays the statically generated page instantly. But there is a certain caveat to this approach. By any chance, if we have a lot of pages to pre-generate, that will significantly increase the build time of the application.
 - There's another really interesting approach involving static-site generation which is called Incremental Static Regeneration (ISR). ISR allows to statically generate on a per-page basis, without needing to rebuild the entire site.
 - Which means that an application will serve all the pre-built page as requested, but if the user requests for a page that wasn't pre-generated, it will serve a fallback version (or a loading state), meanwhile Next.js will make API requests to generate the requested page on the server.
-- And on subsequent request to the same page, Next.js will serve the already generated page and won't regenerate it.
+- And on subsequent requests to the same page, Next.js will serve the already generated page and won't regenerate it.
 
 ## Usecases of CSR, SSR, and SSG
 
 | CSR                                                                          |                          SSR                          |                                                       SSG |
 | ---------------------------------------------------------------------------- | :---------------------------------------------------: | --------------------------------------------------------: |
-| Authenticated pages or a paywall/private dashboard pages.                    | Can be used with pages that requires heavy work load. | Documentation pages where data is not frequently updated. |
-| Pages with frequent data updates. For eg. Pages with real-time data updates. |         Websites that requires link previews.         |                                               Blog sites. |
+| Authenticated pages or paywall/private dashboard pages.                      | Can be used with pages that require a heavy workload. | Documentation pages where data is not frequently updated. |
+| Pages with frequent data updates. For eg. Pages with real-time data updates. |         Websites that require link previews.          |                                               Blog sites. |
 | Banking websites where data is requested on-demand.                          | Websites with lots of pages (only render on request). |               Great for isomorphic applications/websites. |
 | Pages that don't require SEO optimizations.                                  |       Pages that do require SEO optimizations.        |                  Pages that do require SEO optimizations. |
 
 ## Demo
 
-I've built a basic application that demonstrates client-side rendering, server-side rendering, and static-site generation using Next.js. You can go ahead and checkout the application at [Pokedex w/ Next](https://pokedexwnext.netlify.app/). The application was built in order to implement and help explain Next.js' data fetching techniques. Next.js provides a really great developer experience by allowing the developers to choose how they want to render the application per-page basis.
+I've built a basic application that demonstrates client-side rendering, server-side rendering, and static-site generation using Next.js. You can go ahead and check out the application at [Pokedex w/ Next](https://pokedexwnext.netlify.app/). The application was built in order to implement and help explain Next.js' data fetching techniques. Next.js provides a really great developer experience by allowing the developers to choose how they want to render the application per-page basis.
 
 ## References
 
