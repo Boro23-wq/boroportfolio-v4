@@ -1,0 +1,273 @@
+---
+title: Upload image to AWS S3 (using Localstack).
+date: '2021-07-24'
+tags: ['Development', 'AWS', 'S3', 'Cloud Storage']
+draft: false
+summary: We take a look at how to upload image files to AWS S3 using Localstack development environment. Built using Nest.js + Typescript.
+images: ['/images/upload-image-to-s3/cover.png']
+---
+
+<div>
+  <img src="/images/upload-image-to-s3/cover.png" alt="cover" />
+</div>
+
+At some point in time as a developer, you would very well come across using AWS S3 bucket as storage for uploading files. And that's what we will try to accomplish with this blog. I will take you through the entire flow and let you know the exact setup/configuration I use to start storing any type of files in S3. I'll be using Nest.js and Typescript for the demonstration. Although you can store anything in an S3 bucket (text files, images, videos, blobs), we will be dealing explicitly with images since we only want to store image files for the demonstration.
+
+On a side note, we will not require any access/secret AWS config keys since we will be using localstack as the development environment. Localstack, if you don't know already basically helps us avoid the tedious upfront work that you would generally put in configuring the development environment which I'd say can be a lot time-consuming. In case if you do want to have the access/secret keys, you are great to have those. Include them in a .env file and make sure to pull it out in the S3 config provider file.
+
+Also, I am using the [localstack docker image](https://hub.docker.com/r/localstack/localstack) that will help me support the AWS cloud services like S3. Go ahead and pull the localstack docker image if you don't have it already. 
+Once you install that, you will be ready to keep going. If you are looking for a guide that will help you install and configure localstack you can visit their [Github](https://github.com/localstack/localstack).
+
+## Quick steps to install localstack
+- Download the Docker Desktop for your system. You can find the downloadable files [here.](https://www.docker.com/products/docker-desktop)
+- Pull the localstack docker image from Docker Hub. You can find the image [here.](https://hub.docker.com/r/localstack/localstack)
+
+## S3 Config Provider
+
+We have the S3 config provider that does all the setups that we require to get started. Since we don't actually require any real access/secret keys we can hardcode the keys like so or if you have the keys be sure to pull it out from the .env file. We now have the S3 object with the required config. We have the methods getS3() and getBucketName() to export the S3 object and the name of the bucket to be used anywhere in the project.
+
+```ts:S3ConfigProvider.ts
+import { Injectable } from '@nestjs/common';
+import * as S3 from 'aws-sdk/clients/s3'
+
+@Injectable()
+export class S3ConfigProvider {
+    private readonly _s3 : S3;
+    private readonly _bucketName: string;
+
+    constructor(){
+        this._bucketName = process.env.AWS_BUCKET_NAME ?? 'testbucket',
+        this._s3 = new S3({
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? 'testaccesskey',
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? 'testsecretkey',
+            endpoint: process.env.DYNAMO_DB_END_POINT ?? 'http://localhost:4566',
+            s3ForcePathStyle: true,
+            region: process.env.AWS_REGION ?? 'ap-southeast-1',
+            logger: console
+        });
+
+    }
+
+    getS3() {
+        return this._s3;
+    }
+
+    getBucketName(){
+        return this._bucketName;
+    }
+
+    createBucket(){
+        this.getS3().createBucket({ Bucket: 'testbucket' }, 
+          (err, data) => { console.log(err, data) });
+    }
+}
+
+/* Create a bucket (run this once)*/
+// new S3ConfigProvider().createBucket();
+```
+
+Also, be sure to run the createBucket() method once to create a bucket for you with the bucket name `testbucket`. You can make use of the last line to create a bucket.
+
+## Defining the DTO
+
+Let us define the DTO of the image file object along with the response object that we will receive once we upload the image to the S3.
+
+```ts:UploadImageDTO.ts
+import { ApiPropertyOptional } from "@nestjs/swagger";
+
+export class ImageFileDTO { 
+    @ApiPropertyOptional()
+    fieldname?: string;
+
+    @ApiPropertyOptional()
+    originalname?: string; 
+
+    @ApiPropertyOptional()
+    encoding?: string;
+
+    @ApiPropertyOptional()
+    mimetype?: string;
+    
+    @ApiPropertyOptional()
+    buffer?: any;
+
+    @ApiPropertyOptional()
+    size?: number;
+}
+
+export class ImageResponseDTO {
+    @ApiPropertyOptional()
+    ETag?: string;
+
+    @ApiPropertyOptional()
+    Location?: string; 
+
+    @ApiPropertyOptional()
+    key?: string;
+
+    @ApiPropertyOptional()
+    Key?: string;
+    
+    @ApiPropertyOptional()
+    Bucket?: string;
+} 
+```
+We are all set with the DTO. Now we can go ahead and define the only route that will handle the HTTP POST request in the controller.
+
+## Controller Class
+
+Inside the controller file, we define the route or path prefix `/upload` that will take care of the action to upload the image file to S3. We are using FileInterceptors to only intercept files with a specific key. The `upload` method below will delegate the rest of the operation to the service file by calling the upload method inside the service file which performs the required logic to upload the image to S3.
+
+```ts:uploadimage.controller.ts
+import { Post, HttpStatus, UseInterceptors, UploadedFile, Controller, Res } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiResponse } from '@nestjs/swagger';
+
+import { ImageFileDTO, ImageResponseDTO } from './dto/ImageUploadDTO';
+import { UploadImageService } from './uploadimage.service';
+
+
+@Controller('upload')
+export class UploadImageController {
+
+  constructor(private readonly uploadImageService: UploadImageService) {}
+
+  @Post('')
+  @UseInterceptors(FileInterceptor('image', { limits : { files: 1 } }))
+  @ApiResponse({ status:HttpStatus.CREATED, type: ImageResponseDTO })
+  async upload (@UploadedFile() file : ImageFileDTO, @Res() response) { 
+
+    try {
+      const data : ImageResponseDTO = await this.uploadImageService.upload(file);
+      return response
+        .status(200)
+        .json({
+          message: `Image ${file.originalname} uploaded to S3`,
+          data
+        });
+
+    } catch (error) {
+      return response
+        .status(500)
+        .json(`Failed to upload image to S3: ${error.message}`);
+    }
+  }
+}
+```
+The primary objective of a controller is to handle incoming requests to one of its endpoints and return responses back to the client. Here, we finally return a response success/error object notifying if the image was uploaded or not. Let us now write the logic to actually upload the image to S3 inside the service class.
+
+## Service Class
+
+The service class (ImageUploadService) is responsible for uploading the image to S3 and is designed to be used by the UploadImageController. What we have here is a basic service class. It creates an instance of the S3 provider to grab the actual S3 object to perform the upload operation on it.
+
+The essence of a service class or a provider is to organize and share business logic, data, or functions with multiple components within an application.
+
+```ts:uploadimage.service.ts
+import { Logger } from "@nestjs/common";
+import { S3 } from "aws-sdk";
+import { S3ConfigProvider } from "./config/S3ConfigProvider";
+
+export class UploadImageService {
+    private readonly s3Provider: S3ConfigProvider
+
+    constructor() {
+        this.s3Provider = new S3ConfigProvider();
+    }
+
+    async upload(file) {
+        const { originalname } = file;
+        const S3bucket = this.s3Provider.getBucketName();
+        return await this.uploadS3(file.buffer, S3bucket, originalname);
+    }
+
+    async uploadS3(file, bucket, name) {
+        const s3 = this.s3Provider.getS3();
+        const s3Params = {
+            Bucket: bucket,
+            Key: String(name),
+            Body: file,
+        };  
+
+        const data = await this.uploadImageToS3(s3, s3Params)
+        return data;
+    }
+
+  async uploadImageToS3(s3 : S3, s3Params) {
+    return new Promise((resolve, reject) => {
+        s3.upload(s3Params, (err, data) => {
+        if (err) {
+            Logger.error(err);
+            reject(err);
+        }
+        resolve(data);
+        });
+     });
+    }
+}
+```
+
+We finally return a promise with the resolve/reject object based on if the operation was successful. The very next step is to bundle up the controller and the service file under one roof. A module is commonplace to group components, and services, which are related to the application. Let us do it using the module class.
+
+## Module Class
+
+The UploadImageModule class creates a module with the controller and provider files that we've created earlier. Every module that we create inside a project can be shared.
+For example, if we had another module importing the UploadImageModule, it would have access to the UploadImageService and its methods.
+
+```ts:uploadimage.module.ts
+import { Module } from '@nestjs/common';
+import { UploadImageController } from './uploadimage.controller';
+import { UploadImageService } from './uploadimage.service';
+
+@Module({
+  controllers: [UploadImageController],
+  providers: [UploadImageService],
+  exports: [UploadImageService],
+})
+
+export class UploadImageModule {}
+```
+
+The very last step is to actually import this module (UploadImageModule) into the root app module. Let us do just that for the final step.
+
+```ts:app.module.ts
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UploadImageModule } from './modules/uploadimage.module';
+
+@Module({
+  imports: [UploadImageModule],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+```
+Once we are done importing the UploadImageModule to the root AppModule we are good to test the application. We will be using the [Thunder Client](https://www.thunderclient.io) SCode extension to test the endpoint. Before firing up the Thunder client make sure to run the Nest server and localstack using the commands below:
+
+```bash
+# Command for starting Nest server
+yarn start:dev
+
+# Command for running localstack
+# (MacOS)
+DATA_DIR=/tmp/localstack/data localstack infra start --docker
+
+# (Windows)
+"C:\Users${YOUR_WINDOWS_USERNAME_HERE}\localstack\data":"/tmp/localstack/data" -e "DATA_DIR=/tmp/localstack/data" -p 4566:4566 localstack/localstack
+```
+
+<div>
+  <img src="/images/upload-image-to-s3/thunder-upload.png" alt="thunder client" />
+</div>
+
+We can see from the image above we receive a response back with the data object containing the Link (URL) of the image uploaded to S3. The image is now accessible from the URL. There you go we are now finally done with implementing a service that uploads image files to an S3 bucket.
+
+Thanks for sticking around.
+
+## References
+
+- Checkout the project on my [Github.](https://github.com/Boro23-wq/ImageUpload-AWS-S3)
+- [NestJS](https://docs.nestjs.com) documentation.
+- [Localstack](https://localstack.cloud)
+- [S3 101](https://www.onixnet.com/insights/aws-101-what-is-amazon-s3-and-why-should-i-use-it): What is an S3 and why should I use it?
+- [AWS S3](https://aws.amazon.com/s3/) official website.
