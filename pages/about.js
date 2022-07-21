@@ -37,7 +37,7 @@ export default function About() {
               Student, developer, and blogger.
             </div>
 
-            <div className="w-full sm:w-max mt-8">
+            <div className="w-full sm:w-max mt-2">
               <SpotifyPlayer />
             </div>
 
