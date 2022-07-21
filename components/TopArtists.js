@@ -19,7 +19,7 @@ export default function TopArtists() {
         <p className="text-gray-400 dark:text-gray-500 mt-4 items-center">No artists found</p>
       )}
       {data?.artists?.map((artist, index) => (
-        <Artist key={artist.name} {...artist} />
+        <Artist ranking={index + 1} key={artist.name} {...artist} />
       ))}
     </div>
   )
