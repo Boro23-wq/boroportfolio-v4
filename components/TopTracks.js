@@ -16,7 +16,7 @@ export default function Tracks() {
         My Top Tracks
       </h5>
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-        The list of top {data.tracks.length} rappers on my Spotify.
+        The list of top {data?.tracks?.length} rappers on my Spotify.
       </p>
       {data.tracks.map((track, index) => (
         <Track ranking={index + 1} key={track.songUrl} {...track} />
