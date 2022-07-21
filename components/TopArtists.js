@@ -18,7 +18,7 @@ export default function TopArtists() {
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
         The list of top {data?.artists?.length} rappers on my Spotify.
       </p>
-      {data.artists.map((artist, index) => (
+      {data?.artists?.map((artist, index) => (
         <Artist key={index} {...artist} />
       ))}
     </div>
