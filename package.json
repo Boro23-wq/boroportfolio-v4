@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "next-remote-watch ./data",
-    "dev": "next dev -p 4000",
+    "dev": "next dev -p 3000",
     "build": "next build && node ./scripts/generate-sitemap",
     "serve": "next start",
     "analyze": "env ANALYZE=true next build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "proxy": "http://localhost:3000"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.12",
@@ -25,10 +26,13 @@
     "framer-motion": "^4",
     "gray-matter": "^4.0.2",
     "image-size": "0.9.7",
+    "millify": "^4.0.0",
+    "motion": "^10.13.1",
     "next": "10.2.0",
     "next-mdx-remote": "^2.1.3",
     "next-seo": "4.23.0",
     "next-themes": "^0.0.14",
+    "nextjs-cors": "^2.1.1",
     "postcss": "^8.2.8",
     "preact": "^10.5.13",
     "react": "17.0.2",

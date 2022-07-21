@@ -22,7 +22,7 @@ module.exports = {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        blue: colors.lightBlue,
+        gray: colors.gray,
         code: {
           green: '#aaed36',
           yellow: '#f5af19',
