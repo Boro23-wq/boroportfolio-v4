@@ -3,6 +3,7 @@ import millify from 'millify'
 export default function Artist(artist) {
   const totalFollowers = artist?.totalFollowers
   const millifiedTotalFollowers = millify(Number(totalFollowers))
+
   return (
     <div className="mt-4 mb-4 bg-gray-50 dark:bg-gray-700 p-2 rounded-md border-solid border border-gray-100 dark:border-gray-500">
       <a
