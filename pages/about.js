@@ -36,13 +36,16 @@ export default function About() {
             <div className="text-gray-500 dark:text-gray-400 mb-4">
               Student, developer, and blogger.
             </div>
-            <SpotifyPlayer />
 
-            <div className="mt-8">
+            <div className="w-full m-0 mt-8">
+              <SpotifyPlayer />
+            </div>
+
+            <div className="w-full m-0 mt-8">
               <TopTracks />
             </div>
 
-            <div className="mt-10">
+            <div className="w-full m-0 mt-10">
               <TopArtists />
             </div>
           </div>
@@ -72,7 +75,7 @@ export default function About() {
               </div>
             </div>
 
-            <div className="m-2">
+            <div className="m-0 sm:m-2">
               <div className="mb-6 text-3xl md:text-5xl text-black tracking-tight dark:text-white font-bold">
                 Medium Stories
               </div>
