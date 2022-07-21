@@ -5,7 +5,7 @@
   "scripts": {
     "start": "next-remote-watch ./data",
     "dev": "next dev -p 3000",
-    "build": "next build && node ./scripts/generate-sitemap",
+    "build": "echo $NEXT_PUBLIC_SPOTIFY_CLIENT_ID; next build && node ./scripts/generate-sitemap",
     "serve": "next start",
     "analyze": "env ANALYZE=true next build",
     "prepare": "husky install",
