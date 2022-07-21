@@ -11,7 +11,6 @@ export default async (req, res) => {
     optionsSuccessStatus: 200,
   })
 
-  console.log(response)
   // const { items } = await response.json()
 
   // console.log(items)

@@ -9,8 +9,8 @@ import MediumPosts from '@/components/AllMediumPosts'
 import TopArtists from '@/components/TopArtists'
 
 export default function About() {
-  const { data } = useSWR('/api/medium-publications', fetcher)
-  console.log(data)
+  // const { data } = useSWR('/api/medium-publications', fetcher)
+  // console.log(data)
 
   return (
     <>
