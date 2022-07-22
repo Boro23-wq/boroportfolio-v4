@@ -12,7 +12,7 @@ export default function MediumPosts() {
 
   return (
     <>
-      {data.posts.map((post, index) => (
+      {data?.posts?.map((post, index) => (
         <MediumPost key={index} {...post} />
       ))}
     </>

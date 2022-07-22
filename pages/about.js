@@ -24,7 +24,7 @@ export default function About() {
           <div className="flex flex-col items-center pt-8 space-x-2">
             {/* <Avatar name={siteMetadata.author} src={siteMetadata.image} /> */}
             <Image
-              className="rounded-full object-cover filter grayscale border-double border-4 border-indigo-600"
+              className="rounded-full object-cover filter grayscale"
               src={siteMetadata.image}
               alt={siteMetadata.author}
               width={90}
@@ -37,7 +37,7 @@ export default function About() {
               Student, developer, and blogger.
             </div>
 
-            <div className="w-full m-0 mt-8">
+            <div className="flex justify-center w-full sm:w-max mt-2">
               <SpotifyPlayer />
             </div>
 
