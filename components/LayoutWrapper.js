@@ -1,4 +1,5 @@
 import siteMetadata from '@/data/siteMetadata'
+import { useRouter } from 'next/router'
 import headerNavLinks from '@/data/headerNavLinks'
 import { Logo } from '@/data/Logo'
 import Link from './Link'
@@ -7,16 +8,21 @@ import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import { useTheme } from 'next-themes'
+import { capitalize } from '@/lib/utils'
 
 const LayoutWrapper = ({ children }) => {
   const { theme } = useTheme()
+  const router = useRouter()
+
+  const p = router.asPath.split('/')[1]
+  const path = capitalize(p)
 
   return (
     <SectionContainer>
       <div className="flex flex-col justify-between h-screen">
         <header className="flex items-center justify-between py-10">
           <div>
-            <Link href="/" aria-label="Tailwind CSS Blog">
+            <Link href="/" aria-label="Boro Blog">
               <div className="flex items-center justify-between">
                 <div className="mr-3">
                   <Logo
@@ -40,14 +46,22 @@ const LayoutWrapper = ({ children }) => {
                 <Link
                   key={link.title}
                   href={link.href}
-                  className="p-1 font-medium text-gray-900 sm:p-4 dark:text-gray-100"
+                  className={
+                    path === link.title
+                      ? 'p-1 mx-2 font-semibold text-gray-900 sm:p-4 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md'
+                      : 'p-1 mx-2 font-medium text-gray-400 sm:p-4 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md'
+                  }
                 >
                   {link.title}
                 </Link>
               ))}
             </div>
-            <ThemeSwitch />
-            <MobileNav />
+            <div className="ml-2 mr-3 sm:mr-0 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 px-1 py-1 rounded-md transition ease-in-out delay-50">
+              <ThemeSwitch />
+            </div>
+            <div className="ml-2 mr-3 sm:mr-0 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 px-1 py-1 rounded-md transition ease-in-out delay-50">
+              <MobileNav />
+            </div>
           </div>
         </header>
         <main className="mb-auto">{children}</main>
