@@ -4,7 +4,7 @@ export default async (_, res) => {
   const response = await getMediumPosts()
   const { items } = await response.json()
 
-  const posts = items.slice(0, 5).map((post) => ({
+  const posts = items?.slice(0, 5).map((post) => ({
     title: post.title,
     pubDate: post.pubDate,
     description: post.description,

@@ -21,6 +21,11 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
+      listStyleType: {
+        none: 'none',
+        square: 'square',
+        roman: 'upper-roman',
+      },
       colors: {
         gray: colors.gray,
         code: {

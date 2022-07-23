@@ -12,7 +12,7 @@ export const MediumPost = (post) => {
   return (
     <div className="p-6 mb-4 bg-white rounded-lg border border-gray-200 shadow-md overflow-auto dark:bg-gray-800 dark:border-gray-700">
       <h6 className="mb-2 no-underline text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {post.title}
+        {post?.title}
       </h6>
       <span className="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-3 py-1 rounded dark:bg-gray-700 dark:text-gray-300">
         {readableDateString(post.pubDate)}

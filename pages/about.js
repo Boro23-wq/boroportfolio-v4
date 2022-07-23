@@ -3,15 +3,10 @@ import { PageSeo } from '@/components/SEO'
 import SpotifyPlayer from '@/components/SpotifyPlayer'
 import TopTracks from '@/components/TopTracks'
 import Image from 'next/image'
-import useSWR from 'swr'
-import fetcher from '@/lib/fetcher'
 import MediumPosts from '@/components/AllMediumPosts'
 import TopArtists from '@/components/TopArtists'
 
 export default function About() {
-  // const { data } = useSWR('/api/medium-publications', fetcher)
-  // console.log(data)
-
   return (
     <>
       <PageSeo
@@ -37,7 +32,7 @@ export default function About() {
               Student, developer, and blogger.
             </div>
 
-            <div className="flex justify-center w-full sm:w-max mt-2">
+            <div className="flex justify-center sm:w-max mt-2">
               <SpotifyPlayer />
             </div>
 
@@ -53,25 +48,32 @@ export default function About() {
           <div className="pl-0 sm:pl-8 pt-8 pb-8 prose dark:prose-dark max-w-none xl:col-span-2">
             {/*  about-section */}
             <div className="mb-8">
-              <div className="text-3xl md:text-5xl text-black tracking-tight dark:text-white font-bold mb-4">
+              <div className="text-3xl md:text-5xl text-black tracking-tight dark:text-white font-bold">
                 About
               </div>
-              <div className="flex mb-2">
-                ‣ I'm a Computer Science graduate. I build high performant web applications. I have
-                a design-centric approach, and love to devise high-impact user experiences.
-              </div>
-              ‣ Currently, I'm working with Next.js, Nest.js, and GraphQL predominantly. All my
-              projects are open-sourced. You may visit my Github profile to know more about my
-              recent activities.
-              <div className="flex mb-2">
-                ‣ Additionally, I like building experiences for the web. I build high-quality
-                websites with design aesthetics. If you want to check out some of my work, you may
-                visit my UI/UX portfolio @ boro-ui-ux.webflow.io.
-              </div>
-              <div className="flex mb-2">
-                ‣ I write technical blogs as well. My blogs are mostly around topics related to
-                full-stack development, features, updates, and APIs, at large. You will find a lot
-                of topics on front-end technologies like React and Next.
+
+              <div className="flex mb-2 px-2">
+                <ul className="list-[square]">
+                  <li>
+                    I'm a Computer Science graduate. I build high performant web applications. I
+                    have a design-centric approach, and love to devise high-impact user experiences.
+                  </li>
+                  <li>
+                    Currently, I'm working with Next.js, Nest.js, and GraphQL predominantly. All my
+                    projects are open-sourced. You may visit my Github profile to know more about my
+                    recent activities.
+                  </li>
+                  <li>
+                    Additionally, I like building experiences for the web. I build high-quality
+                    websites with design aesthetics. If you want to check out some of my work, you
+                    may visit my UI/UX portfolio @ boro-ui-ux.webflow.io.{' '}
+                  </li>
+                  <li>
+                    I write technical blogs as well. My blogs are mostly around topics related to
+                    full-stack development, features, updates, and APIs, at large. You will find a
+                    lot of topics on front-end technologies like React and Next.
+                  </li>
+                </ul>
               </div>
             </div>
 
