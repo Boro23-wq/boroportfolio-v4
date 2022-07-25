@@ -1994,6 +1994,18 @@
   "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.4.4.tgz"
   "version" "2.4.4"
 
+"@prisma/client@^4.1.0":
+  "integrity" "sha512-MvfPGAd42vHTiCYxwS6N+2U3F+ukoJ48D2QRnX1zSPJHBkh1CBtshl75daKzvVfgQwSouzSQeugKDej5di+E/g=="
+  "resolved" "https://registry.npmjs.org/@prisma/client/-/client-4.1.0.tgz"
+  "version" "4.1.0"
+  dependencies:
+    "@prisma/engines-version" "4.1.0-48.8d8414deb360336e4698a65aa45a1fbaf1ce13d8"
+
+"@prisma/engines-version@4.1.0-48.8d8414deb360336e4698a65aa45a1fbaf1ce13d8":
+  "integrity" "sha512-cRRJwpHFGFJZvtHbY3GZjMffNBEjjZk68ztn+S2hDgPCGB4H66IK26roK94GJxBodSehwRJ0wGyebC2GoIH1JQ=="
+  "resolved" "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-4.1.0-48.8d8414deb360336e4698a65aa45a1fbaf1ce13d8.tgz"
+  "version" "4.1.0-48.8d8414deb360336e4698a65aa45a1fbaf1ce13d8"
+
 "@reach/alert@0.13.2":
   "integrity" "sha512-LDz83AXCrClyq/MWe+0vaZfHp1Ytqn+kgL5VxG7rirUvmluWaj/snxzfNPWn0Ma4K2YENmXXRC/iHt5X95SqIg=="
   "resolved" "https://registry.npmjs.org/@reach/alert/-/alert-0.13.2.tgz"
