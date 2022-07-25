@@ -18,7 +18,17 @@ export const MediumPost = (post) => {
         {readableDateString(post.pubDate)}
       </span>
 
-      {/* <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{post.description}</p> */}
+      {/* <div className="flex">
+        {categories &&
+          categories.map((category) => (
+            <span
+              key={category}
+              className="mt-4 bg-indigo-400 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-200 dark:text-indigo-900"
+            >
+              {category}
+            </span>
+          ))}
+      </div> */}
 
       <button
         type="button"
