@@ -56,10 +56,12 @@ const LayoutWrapper = ({ children }) => {
                 </Link>
               ))}
             </div>
+
             <div className="ml-2 mr-3 sm:mr-0 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 px-1 py-1 rounded-md transition ease-in-out delay-50">
               <ThemeSwitch />
             </div>
-            <div className="ml-2 mr-3 sm:mr-0 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 px-1 py-1 rounded-md transition ease-in-out delay-50">
+
+            <div className="ml-0 mr-3 sm:mr-0 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 px-1 py-1 rounded-md transition ease-in-out delay-50 sm:hidden">
               <MobileNav />
             </div>
           </div>

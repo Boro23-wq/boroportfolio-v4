@@ -12,9 +12,6 @@ const MobileNav = () => {
   const p = router.asPath.split('/')[1]
   const path = capitalize(p)
 
-  console.log(path, link.title)
-  // console.log(path === link.title)
-
   const onToggleNav = () => {
     setNavShow((status) => {
       if (status) {

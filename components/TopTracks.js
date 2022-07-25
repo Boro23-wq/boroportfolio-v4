@@ -2,6 +2,7 @@ import useSWR from 'swr'
 
 import fetcher from '../lib/fetcher'
 import Track from '../components/Track'
+import { Spinner } from './Spinner'
 
 export default function Tracks() {
   const { data } = useSWR('/api/top-tracks', fetcher)
@@ -15,9 +16,17 @@ export default function Tracks() {
         The list of top {data?.tracks?.length === 0 ? <></> : data?.tracks?.length} tracks on my
         Spotify.
       </p>
+
+      {!data && (
+        <div className="flex mt-8 justify-center">
+          <Spinner />
+        </div>
+      )}
+
       {data?.tracks?.length === 0 && (
         <p className="text-gray-400 dark:text-gray-500 mt-4 items-center">No tracks found</p>
       )}
+
       {data?.tracks?.map((track, index) => (
         <Track ranking={index + 1} key={track.songUrl} {...track} />
       ))}

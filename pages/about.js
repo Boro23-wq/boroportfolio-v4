@@ -36,11 +36,11 @@ export default function About() {
               <SpotifyPlayer />
             </div>
 
-            <div className="w-full m-0 mt-8">
+            <div className="w-full m-0 mt-4">
               <TopTracks />
             </div>
 
-            <div className="w-full m-0 mt-10">
+            <div className="w-full m-0 mt-8">
               <TopArtists />
             </div>
           </div>

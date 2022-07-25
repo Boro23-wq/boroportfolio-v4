@@ -2,6 +2,7 @@ import useSWR from 'swr'
 
 import fetcher from '../lib/fetcher'
 import Artist from './Artist'
+import { Spinner } from './Spinner'
 
 export default function TopArtists() {
   const { data } = useSWR('/api/top-artists', fetcher)
@@ -12,14 +13,22 @@ export default function TopArtists() {
         My Top Artists
       </h5>
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-        The list of top {data?.artists?.length === 0 ? <></> : data?.artists?.length} rappers on my
+        The list of top {data?.artists?.length === 0 ? <></> : data?.artists?.length} artists on my
         Spotify.
       </p>
+
+      {!data && (
+        <div className="flex mt-8 justify-center">
+          <Spinner />
+        </div>
+      )}
+
       {data?.artists?.length === 0 && (
         <p className="text-gray-400 dark:text-gray-500 mt-4 items-center">No artists found</p>
       )}
+
       {data?.artists?.map((artist, index) => (
-        <Artist ranking={index + 1} key={artist?.name} {...artist} />
+        <Artist ranking={index + 1} key={artist?.name} {...artist} className="last:border-b-0" />
       ))}
     </div>
   )
