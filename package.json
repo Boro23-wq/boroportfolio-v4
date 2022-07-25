@@ -9,7 +9,7 @@
     "serve": "next start",
     "analyze": "env ANALYZE=true next build",
     "prepare": "husky install",
-    "proxy": "http://localhost:3000"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.12",
@@ -20,6 +20,7 @@
     "@mdx-js/loader": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
     "@next/mdx": "10.2.0",
+    "@prisma/client": "^4.1.0",
     "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/typography": "^0.4.0",
     "autoprefixer": "^10.2.5",
@@ -65,6 +66,7 @@
     "next-compose-plugins": "^2.2.1",
     "next-remote-watch": "^1.0.0",
     "prettier": "2.2.1",
+    "prisma": "^4.1.0",
     "rehype": "11.0.0",
     "remark-frontmatter": "3.0.0",
     "remark-parse": "9.0.0",
