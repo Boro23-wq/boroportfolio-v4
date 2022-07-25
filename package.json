@@ -9,7 +9,7 @@
     "serve": "next start",
     "analyze": "env ANALYZE=true next build",
     "prepare": "husky install",
-    "proxy": "http://localhost:3000"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.12",
