@@ -181,9 +181,9 @@
   </item>
 
   <item>
-    <guid>https://sboro.vercel.app/blog/2fa-speakeasy</guid>
+    <guid>https://sboro.vercel.app/blog/twofa-speakeasy</guid>
     <title>Two factor authentication (2FA) using Speakeasy, Node and Express.</title>
-    <link>https://sboro.vercel.app/blog/2fa-speakeasy</link>
+    <link>https://sboro.vercel.app/blog/twofa-speakeasy</link>
     <description>Know how to configure a two factor authentication for your application using Speakeasy!</description>
     <pubDate>Sat, 14 Nov 2020 00:00:00 GMT</pubDate>
     <author>sboro2899@gmail.com (Sintu Boro)</author>

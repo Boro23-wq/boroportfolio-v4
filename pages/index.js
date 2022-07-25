@@ -1,6 +1,7 @@
 import Link from '@/components/Link'
 import { PageSeo } from '@/components/SEO'
 import Tag from '@/components/Tag'
+import ViewCounter from '@/components/ViewCounter'
 import siteMetadata from '@/data/siteMetadata'
 import { getAllFilesFrontMatter } from '@/lib/mdx'
 
@@ -58,10 +59,15 @@ export default function Home({ posts }) {
                               {title}
                             </Link>
                           </h2>
-                          <div className="flex flex-wrap">
-                            {tags.map((tag) => (
-                              <Tag key={tag} text={tag} />
-                            ))}
+                          <div className="flex flex-wrap justify-between">
+                            <div>
+                              {tags.map((tag) => (
+                                <Tag key={tag} text={tag} />
+                              ))}
+                            </div>
+                            <div>
+                              <ViewCounter slug={slug} />
+                            </div>
                           </div>
                         </div>
                         <div className="prose text-gray-500 max-w-none dark:text-gray-400">

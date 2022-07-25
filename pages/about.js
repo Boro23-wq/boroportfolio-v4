@@ -5,6 +5,7 @@ import TopTracks from '@/components/TopTracks'
 import Image from 'next/image'
 import MediumPosts from '@/components/AllMediumPosts'
 import TopArtists from '@/components/TopArtists'
+import Analytics from '@/components/metrics/Analytics'
 
 export default function About() {
   return (
@@ -34,6 +35,10 @@ export default function About() {
 
             <div className="flex justify-center sm:w-max mt-2">
               <SpotifyPlayer />
+            </div>
+
+            <div className="w-full m-0 mt-4">
+              <Analytics />
             </div>
 
             <div className="w-full m-0 mt-4">
