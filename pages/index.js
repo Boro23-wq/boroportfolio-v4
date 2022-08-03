@@ -65,7 +65,7 @@ export default function Home({ posts }) {
                                 <Tag key={tag} text={tag} />
                               ))}
                             </div>
-                            <div>
+                            <div className="mt-6 sm:mt-0">
                               <ViewCounter slug={slug} />
                             </div>
                           </div>

@@ -1,6 +1,5 @@
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
-import ViewCounter from '@/components/ViewCounter'
 import siteMetdata from '@/data/siteMetadata'
 import { useState } from 'react'
 
@@ -73,9 +72,7 @@ export default function ListLayout({ posts, title }) {
                             <Tag key={tag} text={tag} />
                           ))}
                         </div>
-                        <div>
-                          <ViewCounter slug={slug} />
-                        </div>
+                        <div></div>
                       </div>
                     </div>
                     <div className="prose text-gray-500 max-w-none dark:text-gray-400">
