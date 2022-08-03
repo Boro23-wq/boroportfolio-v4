@@ -65,9 +65,6 @@ export default function Home({ posts }) {
                                 <Tag key={tag} text={tag} />
                               ))}
                             </div>
-                            <div className="mt-6 sm:mt-0">
-                              <ViewCounter slug={slug} />
-                            </div>
                           </div>
                         </div>
                         <div className="prose text-gray-500 max-w-none dark:text-gray-400">
