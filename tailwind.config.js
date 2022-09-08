@@ -27,6 +27,7 @@ module.exports = {
         roman: 'upper-roman',
       },
       colors: {
+        zinc: colors.zinc,
         gray: colors.gray,
         code: {
           green: '#aaed36',
