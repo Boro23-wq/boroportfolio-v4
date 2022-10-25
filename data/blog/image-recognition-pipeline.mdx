@@ -4,7 +4,7 @@ date: '2022-10-24'
 tags: ['AWS', 'S3', 'Rekognition', 'SQS']
 draft: false
 summary: An image recognition pipeline in AWS, using two parallel EC2 instances, S3, SQS, and Rekognition.
-images: ['/images/mod-fed/banner.png']
+# images: ['/images/mod-fed/banner.png']
 ---
 
 # AWS-Image-Recognition-Pipeline
@@ -79,19 +79,25 @@ We will now SSH from Mac to access both our EC2 instances.
     -   Choose the **Download PEM** button and save the **labsuser.pem** file. (Typically your browser will save it to the Downloads directory.)
    
 2.  Open a terminal window, and change directory `cd` to the directory where the **.pem** file was downloaded. For example, run this command, if it was saved to your Downloads directory:
-    `cd ~/Downloads`
+    ```bash
+    cd ~/Downloads
+    ```
     
 3.  Change the permissions on the key to be read only, by running this command:
-    `chmod 400 labsuser.pem`
+    ```shell
+    chmod 400 labsuser.pem
+    ```
     
 4.  Return to the AWS Management Console, and in the EC2 service, choose **Instances**. Check the box next to the instance you want to connect to.
     
 5.  In the _Description_ tab, copy the **IPv4 Public IP** value.
     
-6.  Return to the terminal window and run this command (replace **<public-ip>** with the actual public IP address you copied):
-   ` ssh -i <filename>.pem ec2-user@<public-ip>`
+6.  Return to the terminal window and run this command (replace **public-ip** with the actual public IP address you copied):
+   ```bash 
+   ssh -i <filename>.pem ec2-user@<public-ip>
+   ```
     
-7.  Type `yes` when prompted to allow a first connection to this remote SSH server. Because you are using a key pair for authentication, you will not be prompted for a password.
+7.  Type yes when prompted to allow a first connection to this remote SSH server. Because you are using a key pair for authentication, you will not be prompted for a password.
 
 Once we SSH to the two EC2 instances we will have something like this:
 
