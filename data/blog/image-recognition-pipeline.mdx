@@ -18,7 +18,7 @@ An image recognition pipeline in AWS, using two parallel EC2 instances, S3, SQS,
 
 **Description**: We are building an image recognition pipeline in AWS, using two EC2 instances, S3, SQS, and Rekognition. The project is written in Java on Amazon Linux VMs. For the rest of the description, you should refer to the figure below:
 
-<img src="images/image-rec-pipeline/flow-diagram.png" alt="flow diagram" />
+<img src="/images/image-rec-pipeline/flow-diagram.png" alt="flow diagram" />
 
 We will create two EC2 instances (EC2-A and EC2-B as in the figure), with Amazon Linux AMI, that will work in parallel. Each instance will run a Java application. Instance EC2-A will read 10 images from an S3 bucket (since the S3 bucket was provided by my school I cannot share it in public, but feel free to create an S3 bucket and add 10 images) and performs object detection in the images. When a car is detected using Rekognition, with confidence higher than 90%, the index of that image (e.g., 2.jpg) is stored in SQS. Instance EC2-B reads indexes of images from SQS as soon as these indexes are available in the queue, and performs text recognition on these images (i.e., downloads them from S3 one by one and uses Rekognition for text recognition). Note that the two instances work in parallel: For example, Instance EC2-A is processing image 3, while Instance EC2-B is parallely processing image 1 that was recognized as a car by instance A. When Instance EC2-A terminates its image processing, it adds index -1 to the queue to signal to instance EC2-B that its work has been done. When instance EC2-B finishes, it prints to a file, in its associated EBS, the indexes of the images that have both cars and text, and also prints the actual text in each image next to its index.
 
