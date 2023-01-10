@@ -57,7 +57,7 @@ export default function About() {
                 About Me
               </div>
 
-              <div className="flex mb-2 px-2">
+              <div className="flex mb-2">
                 <div className="flex flex-col mt-4">
                   <div className="dark:bg-gray-800 border-2 dark:border-gray-700 rounded-md p-4 mb-3">
                     ⦿ Graduated from New Jersey Institute of Technology with a Master's Degree in

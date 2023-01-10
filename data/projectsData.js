@@ -1,17 +1,29 @@
 const projectsData = [
   {
-    title: 'Shareable Snippets',
-    description: `Shareable Snippets allow developers to share code snippets easily. Get instant access to thousands of essential snippets used daily at development.`,
-    imgSrc: 'SSIcon',
-    href: 'https://shareable-snippets.vercel.app/',
+    title: 'Care co-ordination and case management',
+    description: `Frontend using Next.js, Typescript, and TailwindCSS. Case notes serves as a running record of client contact as well as a location to keep track of any client information relevant to their treatment.`,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: 'https://github.com/Boro23-wq/cs-673-frontend',
+  },
+  {
+    title: 'Module Federation (Webpack)',
+    description: `Module Federation allows sharing of isolated modules/builds between applications at runtime. It is available as a webpack v5 plugin.`,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: 'https://github.com/Boro23-wq/mod-federation-webpack',
   },
   {
     title: 'Developers Connect',
     description: `Social media application for developers. Connecting developers
-    around the globe to share experiences. It is built on top of MERN
+    around the globe to share experiences. Built on top of MERN
     stack.`,
     imgSrc: '/static/images/time-machine.jpg',
     href: 'https://shielded-waters-55919.herokuapp.com/',
+  },
+  {
+    title: 'Shareable Snippets',
+    description: `Shareable Snippets allow developers to share code snippets easily. Get instant access to thousands of essential snippets used daily at development.`,
+    imgSrc: 'SSIcon',
+    href: 'https://shareable-snippets.vercel.app/',
   },
   {
     title: 'Algorithm Visualization',
@@ -27,13 +39,6 @@ const projectsData = [
     imgSrc: '/static/images/time-machine.jpg',
     href: 'https://gizmoshop.herokuapp.com/',
   },
-  // {
-  //   title: 'Covid-19 Tracker (India)',
-  //   description: `Web application to track the accretion of coronavirus numbers in
-  //   India. State and district wise data provided.`,
-  //   imgSrc: '/static/images/time-machine.jpg',
-  //   href: 'https://indiacovid19stats.netlify.app/',
-  // },
 ]
 
 export default projectsData

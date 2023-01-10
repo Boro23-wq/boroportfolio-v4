@@ -9,8 +9,8 @@ export const WorkCard = () => {
     <div className="p-4 w-full max-w-xl bg-white rounded-lg border-2 sm:p-6 dark:bg-gray-900 dark:border-gray-800">
       <div className="flex items-center mb-4">
         <WorkIcon
-          w={28}
-          h={28}
+          w={25}
+          h={25}
           fill={theme === 'dark' ? 'rgba(255,255,255, 0.4)' : 'rgba(0,0,0,0.3)'}
         />
         <h5 className="ml-2 text-xl font-bold leading-none text-gray-900 dark:text-white">Work</h5>
