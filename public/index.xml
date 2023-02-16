@@ -7,9 +7,19 @@
       <language>en-us</language>
       <managingEditor>sboro2899@gmail.com (Sintu Boro)</managingEditor>
       <webMaster>sboro2899@gmail.com (Sintu Boro)</webMaster>
-      <lastBuildDate>Fri, 06 Aug 2021 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Mon, 24 Oct 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://sboro.vercel.app/index.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://sboro.vercel.app/blog/image-recognition-pipeline</guid>
+    <title>AWS image recognition pipeline using S3, SQS, and Rekognition.</title>
+    <link>https://sboro.vercel.app/blog/image-recognition-pipeline</link>
+    <description>An image recognition pipeline in AWS, using two parallel EC2 instances, S3 for cloud storage, SQS to communicate between VMs, and Rekognition for the machine learning algorithm to detect objects and texts.</description>
+    <pubDate>Mon, 24 Oct 2022 00:00:00 GMT</pubDate>
+    <author>sboro2899@gmail.com (Sintu Boro)</author>
+    <category>AWS</category><category>S3</category><category>Rekognition</category><category>SQS</category>
+  </item>
+
   <item>
     <guid>https://sboro.vercel.app/blog/csr-ssr-ssg</guid>
     <title>I built a Pokedex to demonstrate Next.js' data fetching techniques.</title>

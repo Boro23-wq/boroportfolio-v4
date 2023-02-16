@@ -20,11 +20,11 @@ export default function About() {
           <div className="flex flex-col items-center pt-8 space-x-2">
             {/* <Avatar name={siteMetadata.author} src={siteMetadata.image} /> */}
             <Image
-              className="rounded-full object-cover filter grayscale"
+              className="rounded-full object-cover"
               src={siteMetadata.image}
               alt={siteMetadata.author}
-              width={90}
-              height={90}
+              width={60}
+              height={60}
             />
             <h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">
               {siteMetadata.author}
@@ -59,20 +59,21 @@ export default function About() {
 
               <div className="flex mb-2">
                 <div className="flex flex-col mt-4">
-                  <div className="dark:bg-gray-800 border-2 dark:border-gray-700 rounded-md p-4 mb-3">
-                    ⦿ Graduated from New Jersey Institute of Technology with a Master's Degree in
-                    Computer Science, I am a self-motivated developer with 3+ years of experience
-                    eager to make a positive impact. I have previously built and delivered highly
-                    performant, design-centric web applications with excellent user experience.
+                  <div className="dark:bg-black dark:border-gray-700 rounded-md pt-4 mb-4">
+                    ◌ Graduated from New Jersey Institute of Technology with a Master's Degree in
+                    Computer Science, I am a self-motivated developer with 2+ years of experience in
+                    full-stack web development and I'm eager to make a positive impact. I have
+                    previously built and delivered highly performant, design-centric web
+                    applications with excellent user experience.
                   </div>
-                  <div className="dark:bg-gray-800 border-2 dark:border-gray-700 rounded-md p-4 mb-3">
-                    ⦿ Recently I have worked on a Care co-ordination and case management project
+                  <div className="dark:bg-black dark:border-gray-700 rounded-md mb-4">
+                    ◌ Recently I have worked on a Care co-ordination and case management project
                     where I led a team of 10+ members. My primary contribution was leading the API
                     lifecycle development, building API services, and developing engaging UI/UX in
                     an Agile environment.
                   </div>
-                  <div className="dark:bg-gray-800 border-2 dark:border-gray-700 rounded-md p-4">
-                    ⦿ Additionally, I write technical blogs. My blogs are mostly around topics
+                  <div className="dark:bg-black dark:border-gray-700 rounded-md">
+                    ◌ Additionally, I write technical blogs. My blogs are mostly around topics
                     related to full-stack development, features, updates, and APIs, at large. You
                     will find a lot of topics on front-end technologies like React and Next.
                   </div>

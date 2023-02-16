@@ -25,10 +25,7 @@ const LayoutWrapper = ({ children }) => {
             <Link href="/" aria-label="Boro Blog">
               <div className="flex items-center justify-between">
                 <div className="mr-3">
-                  <Logo
-                    rectColor={theme === 'dark' ? '#fff' : '#000'}
-                    pathColor={theme === 'dark' ? '#000' : '#fff'}
-                  />
+                  {theme === 'dark' ? <Logo fill="#fff" /> : <Logo fill="#000" />}
                 </div>
                 {typeof siteMetadata.headerTitle === 'string' ? (
                   <div className="hidden h-6 text-2xl font-semibold sm:block">
@@ -40,7 +37,7 @@ const LayoutWrapper = ({ children }) => {
               </div>
             </Link>
           </div>
-          <div className="flex items-center text-base leading-5">
+          <div className="flex items-center text-base leading-5 ">
             <div className="hidden sm:block">
               {headerNavLinks.map((link) => (
                 <Link
@@ -48,8 +45,8 @@ const LayoutWrapper = ({ children }) => {
                   href={link.href}
                   className={
                     path === link.title
-                      ? 'p-1 mx-2 font-semibold text-gray-900 sm:p-4 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md'
-                      : 'p-1 mx-2 font-medium text-gray-400 sm:p-4 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md'
+                      ? 'p-1 mx-2 font-extrabold text-gray-900 sm:p-4 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition ease-in-out delay-300'
+                      : 'p-1 mx-2 font-medium text-gray-400 sm:p-4 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition ease-in-out delay-300'
                   }
                 >
                   {link.title}
