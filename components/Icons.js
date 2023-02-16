@@ -2,7 +2,7 @@ export const WorkIcon = ({ w, h, fill }) => {
   return (
     <div>
       <svg
-        fill={fill}
+        fill={fill ? fill : '#fff'}
         width={w ? w : '20px'}
         height={w ? w : '20px'}
         viewBox="0 0 56 56"

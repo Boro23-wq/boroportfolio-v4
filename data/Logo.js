@@ -6,10 +6,10 @@ export const Logo = ({ fill }) => {
       width="32"
       height="32"
       viewBox="0 0 570 496"
-      fill="url(#my-cool-gradient)"
+      fill="url(#lgradient)"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <linearGradient id="my-cool-gradient" x2="1" y2="1">
+      <linearGradient id="lgradient" x2="1" y2="1">
         <stop offset="0%" stopColor="rgba(220, 38, 38)" />
         <stop offset="50%" stopColor="rgba(219, 39, 119)" />
         <stop offset="100%" stopColor="rgba(124, 58, 237)" />
