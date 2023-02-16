@@ -6,7 +6,7 @@ export const WorkCard = () => {
   const { theme } = useTheme()
 
   return (
-    <div className="p-[0.95px] w-full max-w-xl bg-white rounded-lg dark:bg-black bg-gradient-to-r from-red-600 via-pink-600 to-purple-600">
+    <div className="p-1 w-full max-w-xl bg-white rounded-lg dark:bg-black bg-gradient-to-r from-red-600 via-pink-600 to-purple-600">
       <div className=" h-full w-full bg-white dark:bg-black p-4 sm:p-6 rounded-lg">
         <div className="flex items-center mb-4">
           <WorkIcon w={25} h={25} fill={theme === 'dark' ? 'rgba(255,255,255)' : 'rgba(0,0,0)'} />
