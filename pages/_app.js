@@ -6,6 +6,7 @@ import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'
 
 import { SEO } from '@/components/SEO'
+import { Analytics } from '@vercel/analytics/react'
 import LayoutWrapper from '@/components/LayoutWrapper'
 import MDXComponents from '@/components/MDXComponents'
 
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }) {
         <div className="bg-gradient-to-r from-red-600 via-pink-600 to-purple-600 pt-1.5" />
         <LayoutWrapper>
           <Component {...pageProps} />
+          <Analytics />
         </LayoutWrapper>
       </MDXProvider>
     </ThemeProvider>
