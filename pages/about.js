@@ -3,9 +3,6 @@ import { PageSeo } from '@/components/SEO'
 import SpotifyPlayer from '@/components/SpotifyPlayer'
 import TopTracks from '@/components/TopTracks'
 import Image from 'next/image'
-import Link from 'next/link'
-import MediumPosts from '@/components/AllMediumPosts'
-import TopArtists from '@/components/TopArtists'
 
 export default function About() {
   return (
@@ -30,7 +27,7 @@ export default function About() {
               {siteMetadata.author}
             </h3>
             <div className="text-gray-500 dark:text-gray-400 mb-4">
-              Developer, Tech Advocate and Blogger.
+              Developer, Designer, and Blogger.
             </div>
 
             <div className="flex justify-center sm:w-max mt-2">
@@ -41,13 +38,9 @@ export default function About() {
               <Analytics />
             </div> */}
 
-            <div className="w-full m-0 mt-4">
+            {/* <div className="w-full m-0 mt-4">
               <TopTracks />
-            </div>
-
-            <div className="w-full m-0 mt-8">
-              <TopArtists />
-            </div>
+            </div> */}
           </div>
 
           <div className="pl-0 sm:pl-8 pt-8 pb-8 prose dark:prose-dark max-w-none xl:col-span-2">
@@ -60,29 +53,28 @@ export default function About() {
               <div className="flex mb-2">
                 <div className="flex flex-col mt-4">
                   <div className="dark:bg-black dark:border-gray-700 rounded-md pt-4 mb-4">
-                    ◌ Graduated from New Jersey Institute of Technology with a Master's Degree in
-                    Computer Science, I am a self-motivated developer with 2+ years of experience in
-                    full-stack web development and I'm eager to make a positive impact. I have
-                    previously built and delivered highly performant, design-centric web
-                    applications with excellent user experience.
+                    I have graduated from the New Jersey Institute of Technology with a Master's
+                    Degree in Computer Science. I am a self-motivated developer with over three
+                    years of experience in full-stack web development, and I am eager to make a
+                    positive impact. I have previously built and delivered highly performant,
+                    design-centric web applications with excellent user experiences.
                   </div>
                   <div className="dark:bg-black dark:border-gray-700 rounded-md mb-4">
-                    ◌ Recently I have worked on a Care co-ordination and case management project
-                    where I led a team of 10+ members. My primary contribution was leading the API
-                    lifecycle development, building API services, and developing engaging UI/UX in
-                    an Agile environment.
+                    In a recent project, I performed various tasks including vision articulation,
+                    stakeholder identification, and user persona construction. I also led the API
+                    lifecycle development, focusing on code quality and API design. Additionally, I
+                    developed engaging UX/UI and resolved performance issues, while building a
+                    responsive SPA using Next.js, Typescript, and Tailwind CSS.
                   </div>
+
                   <div className="dark:bg-black dark:border-gray-700 rounded-md">
-                    ◌ Additionally, I write technical blogs. My blogs are mostly around topics
-                    related to full-stack development, features, updates, and APIs, at large. You
-                    will find a lot of topics on front-end technologies like React and Next.
+                    Furthermore, I have a passion for writing technical blogs primarily focused on
+                    full-stack development, including topics such as features, updates, and APIs. My
+                    blog posts often delve into front-end technologies like React and Next.js,
+                    providing valuable insights and information.
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="w-full m-0 mt-8">
-              <MediumPosts />
             </div>
           </div>
         </div>

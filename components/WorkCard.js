@@ -37,7 +37,7 @@ export const WorkCard = () => {
 
                 <div className="flex">
                   <div className="inline-flex items-center text-xs font-light text-gray-400 dark:text-gray-500">
-                    May 2022 - Aug 2022
+                    May 2022 - Current
                   </div>
                 </div>
               </div>
